@@ -132,7 +132,7 @@ body {
   loginbtn.addEventListener('click', async ()=>{
     const email = document.querySelector('input[name="email"]').value;
     const password = document.querySelector('input[name="password"]').value;
-    const res = await fetch('/login',{
+    const res = await fetch('/personalOS/login',{
       method:"POST",
       headers:{
         "content-type" : "application/json"
@@ -141,12 +141,12 @@ body {
     })
     const data = await res.json();
     if(data.success){
-      window.location.href = "/dashboard"
+      window.location.href = "/personalOS/dashboard"
       alert(data.message);
     }
     else{
       alert(data.message);
-      window.location.href = "/signup"
+      window.location.href = "/personalOS/signup"
     }
   })
 </script>
