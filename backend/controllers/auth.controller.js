@@ -1,5 +1,4 @@
-const express = require('express');
-const router = express.Router();
+
 const user = require('../models/User.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -41,7 +40,7 @@ exports.postlogin = async (req,res)=>{
         if(ismatch){
 
         const token = jwt.sign(
-        {name:userexist.name,role:userexist.role}, process.env.JWT,
+        {id:userexist._id,role:userexist.role}, process.env.JWT,
         { expiresIn: "7d" }
         );
         res.cookie("token", token, {
