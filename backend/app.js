@@ -13,11 +13,12 @@ app.set('views', path.join(__dirname, '../frontend/views'));
 
 
 const authrouter = require('./routes/auth.routes');
-
-app.use('/dashboard',(req,res)=>{
-    console.log("requested:",req.url);
+const authmiddleware = require('./middleware/auth.middleware')
+const seetingrouter = require('./routes/settings.routes');
+app.use('/personalOS/dashboard',authmiddleware.authtoken,(req,res)=>{
+    console.log("requested:",req.user);
     res.render('dashboard/index');
 })
-app.use('/',authrouter);
-
+app.use('/personalOS',authrouter);
+app.use('/personalOS',authmiddleware.authtoken,seetingrouter);
 module.exports = app;
