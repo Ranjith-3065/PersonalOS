@@ -7,4 +7,6 @@ router.get('/profile/data',settingscontroller.getprofiledata);
 router.get('/account',settingscontroller.getaccount);
 router.get('/preferences',settingscontroller.getpreferences);
 
+router.patch('/profile/updatedata',settingscontroller.patchprofile);
+
 module.exports = router;
