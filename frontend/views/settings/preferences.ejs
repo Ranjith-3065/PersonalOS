@@ -2,78 +2,327 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>PersonalOS | Preferences</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preferences | PersonalOS</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body {
-  background: linear-gradient(145deg,#020617,#0f172a);
-  color: #e5e7eb;
-  font-family: Inter, sans-serif;
-}
-.container {
-  max-width: 500px;
-  margin: 80px auto;
-  background: #111827;
-  padding: 30px;
-  border-radius: 16px;
-}
-.nav {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 25px;
-}
-.nav a {
-  color: #9ca3af;
-  text-decoration: none;
-}
-.nav a.active {
-  color: #38bdf8;
-}
-.toggle {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-}
-button {
-  margin-top: 15px;
-  width: 100%;
-  padding: 12px;
-  background: #38bdf8;
-  border: none;
-  border-radius: 10px;
-  font-weight: 600;
-}
+  :root {
+    --bg: #fdfdfe;
+    --sidebar: #ffffff;
+    --card: #ffffff;
+    --border: #f1f3f5;
+    --text-main: #1a1a1e;
+    --text-sub: #71717a;
+    --accent: #111111;
+    --input-bg: #f8f9fa;
+  }
+
+  [data-theme="dark"] {
+    --bg: #000000;
+    --sidebar: #0a0a0a;
+    --card: #0f0f0f;
+    --border: #1a1a1a;
+    --text-main: #f8f9fa;
+    --text-sub: #94a3b8;
+    --accent: #ffffff;
+    --input-bg: #141414;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; transition: background 0.3s, color 0.3s, border-color 0.3s; }
+
+  body { background-color: var(--bg); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+
+  /* SIDEBAR */
+  aside {
+    width: 280px;
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+    padding: 32px 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .brand { font-weight: 800; font-size: 18px; color: var(--accent); margin-bottom: 40px; padding-left: 12px; }
+
+  .nav-item {
+    display: block;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-sub);
+    text-decoration: none;
+    border-radius: 12px;
+    margin-bottom: 4px;
+  }
+
+  .nav-item.active { background: var(--input-bg); color: var(--accent); }
+
+  /* MAIN CONTENT */
+  main { flex: 1; padding: 60px 80px; overflow-y: auto; scroll-behavior: smooth; }
+
+  header { margin-bottom: 48px; }
+  header h1 { font-size: 32px; font-weight: 800; letter-spacing: -1.2px; }
+  header p { color: var(--text-sub); font-size: 15px; margin-top: 4px; }
+
+  /* PREFERENCES GRID */
+  .grid { max-width: 800px; display: flex; flex-direction: column; gap: 32px; padding-bottom: 100px; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-sub);
+    margin-bottom: 16px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .row:last-child { border-bottom: none; }
+
+  .info h4 { font-size: 14px; font-weight: 700; }
+  .info p { font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+
+  /* TOGGLE SWITCH */
+  .switch { position: relative; display: inline-block; width: 44px; height: 24px; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider { position: absolute; cursor: pointer; inset: 0; background-color: #e2e8f0; transition: .4s; border-radius: 34px; }
+  .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+  input:checked + .slider { background-color: var(--accent); }
+  input:checked + .slider:before { transform: translateX(20px); }
+
+  /* SELECT & BUTTONS */
+  select {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    color: var(--text-main);
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .btn {
+    padding: 12px 24px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+
+  /* STORAGE PROGRESS */
+  .storage-bar {
+    width: 200px;
+    height: 8px;
+    background: var(--input-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+
+  .progress-fill { width: 65%; height: 100%; background: var(--accent); }
+
 </style>
 </head>
-
 <body>
-<div class="container">
 
-  <div class="nav">
-    <a href="/personalOS/profile">Profile</a>
-    <a href="/personalOS/account">Account</a>
-    <a class="active">Preferences</a>
-  </div>
+  <aside>
+    <div class="brand">PersonalOS</div>
+    <nav>
+      <a href="/personalOS/dashboard" class="nav-item">← Dashboard</a>
+      <a href="/personalOS/profile" class="nav-item">General Profile</a>
+      <a href="/personalOS/account" class="nav-item">Account & Security</a>
+      <a href="/personalOS/preferences" class="nav-item active">System Preferences</a>
+    </nav>
+  </aside>
 
-  <h2>Preferences</h2>
+  <main>
+    <header>
+      <h1>System Preferences</h1>
+      <p>Fine-tune your environment for peak performance.</p>
+    </header>
 
-  <div class="toggle">
-    <span>Dark Mode</span>
-    <input type="checkbox" checked>
-  </div>
+    <div class="grid">
+      
+      <div>
+        <div class="section-label">Appearance & Feel</div>
+        <div class="card">
+          <div class="row">
+            <div class="info">
+              <h4>Dark Interface</h4>
+              <p>Toggle between professional light and dark themes.</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="theme-toggle">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="row">
+            <div class="info">
+              <h4>System Language</h4>
+              <p>Set your primary interface language.</p>
+            </div>
+            <select>
+              <option>English (US)</option>
+              <option>English (UK)</option>
+              <option>Spanish</option>
+              <option>German</option>
+            </select>
+          </div>
+        </div>
+      </div>
 
-  <div class="toggle">
-    <span>Email Notifications</span>
-    <input type="checkbox">
-  </div>
+      <div>
+        <div class="section-label">Interface Layout</div>
+        <div class="card">
+          <div class="row">
+            <div class="info">
+              <h4>Dashboard Style</h4>
+              <p>Choose your preferred information density.</p>
+            </div>
+            <select>
+              <option>Bento Grid (Default)</option>
+              <option>List View</option>
+              <option>Minimalist</option>
+            </select>
+          </div>
+          <div class="row">
+            <div class="info">
+              <h4>Default Start View</h4>
+              <p>The module shown immediately after login.</p>
+            </div>
+            <select>
+              <option>Intelligence Hub</option>
+              <option>Growth Tracking</option>
+              <option>Encrypted Vault</option>
+            </select>
+          </div>
+        </div>
+      </div>
 
-  <div class="toggle">
-    <span>Weekly Summary</span>
-    <input type="checkbox">
-  </div>
+      <div>
+        <div class="section-label">Communication</div>
+        <div class="card">
+          <div class="row">
+            <div class="info">
+              <h4>System Notifications</h4>
+              <p>Receive push alerts on your current device.</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="row">
+            <div class="info">
+              <h4>Email Notifications</h4>
+              <p>Weekly summaries and critical system alerts.</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
 
-  <button>Save Preferences</button>
+      <div>
+        <div class="section-label">Intelligence Core</div>
+        <div class="card">
+          <div class="row">
+            <div class="info">
+              <h4>AI Suggestions</h4>
+              <p>Allow the engine to suggest habits and insights.</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="row">
+            <div class="info">
+              <h4>Predictive Loading</h4>
+              <p>Optimize resource usage based on behavior.</p>
+            </div>
+            <label class="switch">
+              <input type="checkbox" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
 
-</div>
+      <div>
+        <div class="section-label">Data & Backup</div>
+        <div class="card">
+          <div class="row">
+            <div class="info">
+              <h4>Cloud Workspace Storage</h4>
+              <p>6.5 GB of 10 GB utilized.</p>
+              <div class="storage-bar"><div class="progress-fill"></div></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="info">
+              <h4>Auto-Backup Frequency</h4>
+              <p>Frequency of encrypted state snapshots.</p>
+            </div>
+            <select>
+              <option>Hourly</option>
+              <option>Daily</option>
+              <option>Weekly</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 16px; margin-top: 20px;">
+        <button class="btn">Save All Changes</button>
+        <button class="btn" style="background: transparent; color: var(--text-sub); border: 1px solid var(--border);">Restore Defaults</button>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    
+    // Check local storage for theme
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.setAttribute('data-theme', 'dark');
+      themeToggle.checked = true;
+    }
+
+    themeToggle.addEventListener('change', () => {
+      if (themeToggle.checked) {
+        document.body.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.body.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+      }
+    });
+  </script>
+
 </body>
 </html>
