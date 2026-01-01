@@ -40,18 +40,18 @@
   .settings-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 1000px; }
 
   /* CARDS */
-  .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); transition: transform 0.2s, box-shadow 0.2s; }
+  .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
   .card:hover { box-shadow: 0 10px 15px -3px rgba(0,0,0,0.04); transform: translateY(-2px); }
   .card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
   .icon-box { width: 40px; height: 40px; background: #EFF6FF; color: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
   .card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-  .card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px; }
+  .card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px; flex-grow: 1; }
 
   /* LOGIN INFO FOOTER */
   .login-info-bar { grid-column: span 2; display: flex; justify-content: space-between; padding: 16px; background: #F3F4F6; border-radius: 12px; font-size: 12px; color: var(--text-muted); border: 1px solid var(--border); }
 
   /* BUTTONS */
-  .btn { display: inline-flex; align-items: center; justify-content: center; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.2s; text-decoration: none; border: none; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: 0.2s; text-decoration: none; border: none; gap: 6px; }
   .btn-primary { background: var(--text-main); color: #fff; }
   .btn-secondary { background: #fff; color: var(--text-main); border: 1px solid var(--border); }
   .btn-danger-outline { background: transparent; color: var(--danger); border: 1px solid #FEE2E2; }
@@ -67,6 +67,93 @@
 
   /* DANGER AREA */
   .danger-section { grid-column: span 2; margin-top: 32px; padding: 24px; background: #FFF5F5; border: 1px solid #FEE2E2; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; }
+
+  /* OVERLAY (BLUR BACKGROUND) */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.4);
+  backdrop-filter: blur(6px);
+  z-index: 100;
+  display: none;
+}
+
+/* MODAL */
+.verify-modal {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  width: 500px;
+  height: auto;
+  z-index: 101;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  display: none;
+  transition: 0.2s;
+}
+
+.verify-modal h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.verify-modal p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.verify-modal input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+/* OTP INPUTS */
+.otp-inputs {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.otp-box {
+  width: 48px;
+  height: 52px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.otp-box:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+
+#verifired-btn{
+  display: inline-flex;
+}
+
+
 </style>
 </head>
 <body>
@@ -101,7 +188,7 @@
             </div>
           </div>
         </div>
-        <button class="btn btn-secondary" onclick="requestVerification()">Verify Email</button>
+        <button class="btn btn-secondary" id="verified-btn" onclick="requestVerification()">Verify Email</button>
       </div>
 
       <div class="card">
@@ -115,11 +202,23 @@
 
       <div class="card">
         <div class="card-header">
+          <div class="icon-box">📱</div>
+        </div>
+        <h3>Phone Number</h3>
+        <p id="phone-text">No phone number linked. Add one to enable SMS recovery and two-factor alerts.</p>
+        <div style="display: flex; gap: 8px; margin-top: auto;">
+            <button class="btn btn-primary" onclick="managePhone()" id="phone-btn">Add Number</button>
+            <button class="btn btn-secondary" id="phone-remove-btn" style="display: none; color: var(--danger);" onclick="removePhone()">Remove</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
           <div class="icon-box">💻</div>
         </div>
         <h3>Global Logout</h3>
         <p>Lost a device? Secure your account by logging out of all active web and mobile sessions.</p>
-        <button class="btn btn-secondary" style="color: var(--danger);">Logout All Devices</button>
+        <button class="btn btn-secondary" style="color: var(--danger); margin-top: auto;">Logout All Devices</button>
       </div>
 
       <div class="login-info-bar">
@@ -135,6 +234,31 @@
         <button class="btn btn-danger-outline" onclick="softDelete()">Deactivate</button>
       </div>
 
+      <!-- OVERLAY -->
+<div id="overlay" class="overlay" onclick="closeVerification()"></div>
+
+<!-- VERIFY MODAL -->
+<div id="verifyModal" class="verify-modal">
+  <h3>Verify your email</h3>
+  <p>Enter the verification code sent to your email.</p>
+
+  <div class="otp-inputs">
+  <input type="text" maxlength="1" class="otp-box">
+  <input type="text" maxlength="1" class="otp-box">
+  <input type="text" maxlength="1" class="otp-box">
+  <input type="text" maxlength="1" class="otp-box">
+  <input type="text" maxlength="1" class="otp-box">
+  <input type="text" maxlength="1" class="otp-box">
+</div>
+
+
+  <div class="modal-actions">
+    <button class="btn btn-secondary" onclick="closeVerification()">Cancel</button>
+    <button class="btn btn-primary" onclick="submitVerification()">Verify</button>
+  </div>
+</div>
+
+
     </div>
   </main>
 
@@ -145,43 +269,74 @@
         const data = await res.json();
         
         if(data.success) {
+          // Update Identity
           document.getElementById('acc-name').textContent = data.name;
           document.getElementById('acc-email').textContent = data.email;
           document.getElementById('logo-letter').textContent = data.name[0].toUpperCase();
-          
-          // Verification Status UI
-          const badge = document.getElementById('verify-badge');
-          if(data.isVerified) {
-            badge.textContent = "Verified";
-            badge.className = "status-pill verified";
-          }
-
-          // Last Login
-          if(data.lastLogin) {
-              const date = new Date(data.lastLogin);
-              document.getElementById('last-login-time').textContent = date.toLocaleString();
-          }
-
-          // Account Status
-          document.getElementById('status-text').textContent = data.isActive ? "Active" : "Inactive";
+        if(data.Verified){
+          document.querySelector('#verify-badge').textContent = 'Verifed';
+          document.querySelector('#verified-btn').style.display= 'none';
         }
-      } catch (e) {
-        console.log("Running in demo mode.");
+          
+          // Phone Number Logic
+          const phoneText = document.getElementById('phone-text');
+          const phoneBtn = document.getElementById('phone-btn');
+          const removeBtn = document.getElementById('phone-remove-btn');
+      } 
+    }
+    catch (e) {
+        console.log("Running in demo mode. Connect to backend to see live data.");
       }
     }
+init();
 
-    function softDelete() {
-        if(confirm("Are you sure you want to deactivate your account? Your data will be hidden but not deleted.")) {
-            // Logic to set isActive: false via API
-            console.log("Deactivating...");
+    async function requestVerification() {
+      await fetch("/personalOS/account/updatedata", {
+    method: "PATCH"
+  });
+      document.getElementById('overlay').style.display = 'block';
+            document.getElementById('verifyModal').style.display = 'block';
+        
+    }
+
+        function closeVerification(){
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('verifyModal').style.display = 'none';
+
         }
-    }
 
-    function requestVerification() {
-        alert("Verification link sent to your email!");
-    }
+        async function submitVerification(){
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('verifyModal').style.display = 'none';
 
-    init();
+            const otpdata = [];
+           const otp =  document.querySelectorAll('.otp-box');
+            otp.forEach(otpvalue => {
+              otpdata.push(otpvalue.value);
+            });
+            const od = otpdata.join("");
+
+            if(od.length!=6){
+              alert("enter the full otp");
+              return;
+            }
+
+          const res = await fetch('/personalOS/account/otp',{
+          method: 'PATCH',
+          headers:{
+            "content-type" : "application/json"
+          },
+          body:JSON.stringify({od})
+        });
+        const data = await res.json();
+        if(data.success){
+          console.log("data values",data)
+          // document.querySelector('#verify-badge').textContent = 'verified';
+        }
+        if(data.Verified){
+          document.querySelector('#verify-badge').textContent = 'verified';
+        }
+        }
   </script>
 </body>
 </html>
