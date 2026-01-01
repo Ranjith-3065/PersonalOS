@@ -53,6 +53,9 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
     },
+    otp:{
+      type:String,
+    }
   },
   {
     timestamps: true, // creates createdAt & updatedAt automatically
