@@ -1,5 +1,6 @@
 
 const user = require('../models/User.model');
+const {settingsService, sendmaillink} = require('../services/settings.service');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
@@ -61,4 +62,21 @@ exports.postlogin = async (req,res)=>{
         return res.status(400).json({success : false, message:"Incorrect email or password"});
     }
     
+}
+
+exports.getforgotpass = (req,res)=>{
+    console.log('url',req.url);
+    res.render('auth/forgotPassword');
+}
+exports.postresetpass = async(req,res)=>{
+    console.log('i came here');
+    const {email} = req.body;
+    const link = 'http://localhost:3000/personalOS/passwordreset';
+    await sendmaillink(email,link);
+    return res.status(200).json({success:true});
+
+}
+
+exports.getresetpass = (req,res)=>{
+    res.render('auth/passwordreset');
 }
