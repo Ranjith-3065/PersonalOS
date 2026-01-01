@@ -8,5 +8,8 @@ router.get('/account',settingscontroller.getaccount);
 router.get('/preferences',settingscontroller.getpreferences);
 
 router.patch('/profile/updatedata',settingscontroller.patchprofile);
+router.patch('/account/updatedata',settingscontroller.patchaccount);
+router.patch('/account/otp',settingscontroller.patchotp);
+
 
 module.exports = router;
