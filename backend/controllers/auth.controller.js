@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 dotenv.config();
-
+// signup
 exports.getsignup = (req,res)=>{
     console.log("url",req.url);
     res.render('auth/signup');
@@ -27,7 +27,7 @@ exports.postsignup = async (req,res)=>{
     }
 }
 
-
+//login
 exports.getlogin = (req,res)=>{
     console.log("url",req.url);
     res.render('auth/login');
@@ -63,7 +63,7 @@ exports.postlogin = async (req,res)=>{
     }
     
 }
-
+//forgotpass
 exports.getforgotpass = (req,res)=>{
     console.log('url',req.url);
     res.render('auth/forgotPassword');
@@ -71,12 +71,12 @@ exports.getforgotpass = (req,res)=>{
 exports.postresetpass = async(req,res)=>{
     console.log('i came here');
     const {email} = req.body;
+
     const link = 'http://localhost:3000/personalOS/passwordreset';
     await sendmaillink(email,link);
     return res.status(200).json({success:true});
 
 }
-
 exports.getresetpass = (req,res)=>{
     res.render('auth/passwordreset');
 }
