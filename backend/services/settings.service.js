@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 dotenv.config();
 
+// tarnsport creation for the sending mail 
     const transport = nodemailer.createTransport({
         service: "gmail",
         auth:{
@@ -9,7 +10,7 @@ dotenv.config();
             pass:process.env.PASS
         }
     })
-
+// otp sending to mail using sendmail function
 const sendmail= async(to,otp)=>{
     await transport.sendMail({
         from:"personalOS <no-reply@personalOS.com>",
@@ -95,6 +96,7 @@ const sendmail= async(to,otp)=>{
         `
     })
 }
+//sending link to mail using sendmail function with the help of transport variable created using nodemailer of keyword createtransport
 const sendmaillink= async(to,link)=>{
     await transport.sendMail({
         from:"personalOS <no-reply@personalOS.com>",
