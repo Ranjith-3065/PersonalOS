@@ -1,5 +1,5 @@
 const user = require('../models/User.model');
-const {settingsService, sendmail} = require('../services/settings.service')
+const {sendmail} = require('../services/settings.service')
 exports.getprofile = (req,res)=>{
     console.log('url',req.url);
     res.render('settings/profile');
