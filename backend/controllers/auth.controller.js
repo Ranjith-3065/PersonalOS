@@ -1,6 +1,6 @@
 
 const user = require('../models/User.model');
-const {settingsService, sendmaillink} = require('../services/settings.service');
+const {sendmaillink} = require('../services/settings.service');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
@@ -37,6 +37,8 @@ exports.postlogin = async (req,res)=>{
     const userexist = await user.findOne({email}).select("+password");
     console.log(userexist);
     if(userexist){
+        console.log('pass1',userexist.password);
+        console.log('pass2',password);
         const ismatch = await bcrypt.compare(password , userexist.password);
         if(ismatch){
 
@@ -71,12 +73,28 @@ exports.getforgotpass = (req,res)=>{
 exports.postresetpass = async(req,res)=>{
     console.log('i came here');
     const {email} = req.body;
+    const token = 'hi1234';
+    const usertoken = await user.findOne({email});
+    usertoken.tokenforreset = token;
+    await usertoken.save();
 
-    const link = 'http://localhost:3000/personalOS/passwordreset';
+    const link = `http://localhost:3000/personalOS/passwordreset/${token}`;
     await sendmaillink(email,link);
-    return res.status(200).json({success:true});
+    return res.status(200).json({success:true,token});
 
 }
 exports.getresetpass = (req,res)=>{
     res.render('auth/passwordreset');
+}
+
+
+exports.postresetpassword = async(req,res)=>{
+    const {password} = req.body;
+    const {token} = req.params;
+    const userdetails = await user.findOne({tokenforreset:token}).select("+password");
+        //hash madbek
+        userdetails.password = password;
+        await userdetails.save();
+        res.status(200).json({success:true});
+
 }
