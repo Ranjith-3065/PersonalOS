@@ -11,6 +11,6 @@ router.post('/login',authcontroller.postlogin);
 //forgotpass
 router.get('/forgotpass',authcontroller.getforgotpass);
 router.post('/resetpass',authcontroller.postresetpass);
-router.get('/passwordreset',authcontroller.getresetpass);
-
+router.get('/passwordreset/:token',authcontroller.getresetpass);
+router.post('/passwordreset/:token',authcontroller.postresetpassword);
 module.exports =router;
