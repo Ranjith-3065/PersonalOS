@@ -55,7 +55,10 @@ const userSchema = new mongoose.Schema(
     },
     otp:{
       type:String,
-    }
+    },
+    tokenforreset:{
+      type:String,
+    },
   },
   {
     timestamps: true, // creates createdAt & updatedAt automatically
