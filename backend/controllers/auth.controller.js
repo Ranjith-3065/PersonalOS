@@ -92,7 +92,6 @@ exports.postresetpassword = async(req,res)=>{
     const {password} = req.body;
     const {token} = req.params;
     const userdetails = await user.findOne({tokenforreset:token}).select("+password");
-        //hash madbek
         const haspassword =await bcrypt.hash(password,10);
         userdetails.password = haspassword;
         await userdetails.save();
