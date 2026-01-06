@@ -74,24 +74,6 @@
       </div>
     </div>
   </main>
-
-  <script>
-    async function loadIdentity() {
-      try {
-        const res = await fetch('/personalOS/profile/data');
-        const data = await res.json();
-        if(data.success) {
-          const name = data.name;
-          document.getElementById('username').textContent = name;
-          document.getElementById('avatar').textContent = name[0].toUpperCase();
-          document.getElementById('greet').textContent = `Welcome Back, ${name.split(' ')[0]}`;
-        }
-      } catch (e) {
-        document.getElementById('username').textContent = "Julian Vance";
-        document.getElementById('avatar').textContent = "J";
-      }
-    }
-    loadIdentity();
-  </script>
+<script src="../../public/js/dashboard.js"></script>
 </body>
 </html>
