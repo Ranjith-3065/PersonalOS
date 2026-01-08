@@ -1,22 +1,26 @@
-<aside class="sidebar">
-  <div class="sidebar-brand">
-    <div class="logo-box"></div>
-    <span>PersonalOS</span>
+<aside>
+  <div class="brand">
+    <div style="width: 24px; height: 24px; background: var(--accent); border-radius: 6px;"></div>
+    PersonalOS
   </div>
 
-  <nav class="sidebar-nav">
-    <a href="/personalOS/dashboard" class="nav-item">Dashboard</a>
-    <a href="/personalOS/ai" class="nav-item">AI Assistant</a>
-    <a href="/personalOS/habits" class="nav-item">Habits</a>
-    <a href="/personalOS/tasks" class="nav-item">Tasks</a>
-    <a href="/personalOS/notes" class="nav-item">Notes</a>
-    <a href="/personalOS/timeline" class="nav-item">Timeline</a>
-    <a href="/personalOS/vault" class="nav-item">Vault</a>
+  <div class="identity-card">
+    <div class="user-avatar" id="avatar">?</div>
+    <div class="user-details">
+      <div class="u-name" id="username"><%= user?.name || "User" %></div>
+      <div class="u-role">Identity Verified</div>
+    </div>
+  </div>
 
-    <div class="nav-divider"></div>
-
-    <a href="/personalOS/profile" class="nav-item">Settings</a>
-    <a href="/personalOS/logout" class="nav-item danger">Logout</a>
+  <nav>
+    <a href="#" class="nav-item active">Dashboard</a>
+    <a href="#" class="nav-item">AI Assistant</a>
+    <a href="#" class="nav-item">Habits</a>
+    <a href="#" class="nav-item">Notes</a>
+    <a href="#" class="nav-item">Tasks</a>
+    <a href="#" class="nav-item">Timeline</a>
+    <a href="#" class="nav-item">Vault</a>
+    <a href="/personalOS/profile" class="nav-item" style="margin-top: auto;">Settings</a>
+    <a href="/personalOS/login" class="nav-item" style="color:#ef4444;">Logout</a>
   </nav>
 </aside>
-
