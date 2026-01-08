@@ -2,16 +2,34 @@ const user = require('../models/User.model');
 const {sendmail} = require('../services/settings.service')
 exports.getprofile = (req,res)=>{
     console.log('url',req.url);
-    res.render('settings/profile');
+    res.render('settings/profile',{
+        user:req.user,
+        title:'profile',
+        scripts:['/js/settings/profile.js'],
+        styles:['/css/settings/profile.css'],
+        layout: 'layouts/settings'
+    });
 }
 
 exports.getaccount = (req,res)=>{
     console.log('url',req.url);
-    res.render('settings/account');
+    res.render('settings/account',{
+        user:req.user,
+        title:'account',
+        scripts:['/js/settings/account.js'],
+        styles:['/css/settings/account.css'],
+        layout: 'layouts/settings'
+    });
 }
 exports.getpreferences = (req,res)=>{
     console.log('url',req.url);
-    res.render('settings/preferences');
+    res.render('settings/preferences',{
+        user:req.user,
+        title:'preferences',
+        scripts:['/js/settings/prefernce.js'],
+        styles:['/css/settings/prefernce.css'],
+        layout: 'layouts/settings'
+    });
 }
 
 exports.getprofiledata = async (req,res)=>{
