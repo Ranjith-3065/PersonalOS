@@ -1,79 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PersonalOS | Workspace</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/css/dashboard.css">
-</head>
-<body>
-  <aside>
-    <div class="brand">
-      <div style="width: 24px; height: 24px; background: var(--accent); border-radius: 6px;"></div>
-      PersonalOS
+<div class="bento-grid">
+
+  <div class="bento-card card-span-2 animate-in">
+    <div class="card-label">Neural Intelligence</div>
+    <div class="big-text">
+      "Welcome to your Workspace. I've prepared your priority list for the afternoon."
     </div>
+    <div class="footer-note">Press ⌘ + K to command</div>
+  </div>
 
-    <div class="identity-card">
-      <div class="user-avatar" id="avatar">?</div>
-      <div class="user-details">
-        <div class="u-name" id="username">Loading...</div>
-        <div class="u-role">Identity Verified</div>
-      </div>
-    </div>
+  <div class="bento-card">
+    <div class="card-label">Growth</div>
+    <div class="data-hero" style="color:#6366f1;">0</div>
+    <div class="footer-note">Active Habit Streaks</div>
+  </div>
 
-    <nav>
-      <a href="#" class="nav-item active">Dashboard</a>
-      <a href="#" class="nav-item">AI Assistant</a>
-      <a href="#" class="nav-item">Habits</a>
-      <a href="#" class="nav-item">Notes</a>
-      <a href="#" class="nav-item">Tasks</a>
-      <a href="#" class="nav-item">Timeline</a>
-      <a href="#" class="nav-item">Vault</a>
-      <a href="/personalOS/profile" class="nav-item" style="margin-top: auto;">Settings</a>
-      <a href="/personalOS/login" class="nav-item" style="color: #ef4444;">Logout</a>
-    </nav>
-  </aside>
-
-  <main>
-    <header class="animate-in">
-      <h1 id="greet">Good Afternoon</h1>
-      <p>System modules are online and synchronized.</p>
-    </header>
-
-    <div class="bento-grid">
-      <div class="bento-card card-span-2 animate-in delay-1">
-        <div class="card-label">Neural Intelligence</div>
-        <div class="big-text">
-          "Welcome to your Workspace. I've prepared your priority list for the afternoon. Shall we begin?"
-        </div>
-        <div class="footer-note">Press ⌘ + K to command</div>
-      </div>
-
-      <div class="bento-card animate-in delay-2">
-        <div class="card-label">Growth</div>
-        <div class="data-hero" style="color: #6366f1;">0</div>
-        <div class="footer-note">Active Habit Streaks</div>
-      </div>
-
-      <div class="bento-card animate-in delay-3">
-        <div class="card-label">Security</div>
-        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 20px;">
-            <div style="font-size: 16px; font-weight: 700; color: #10b981;">● AES-256 Active</div>
-            <div style="font-size: 13px; color: var(--text-sub); font-weight: 500;">Zero-knowledge vault.</div>
-        </div>
-        <div class="footer-note">Encrypted & Locked</div>
-      </div>
-
-      <div class="bento-card card-span-2 animate-in delay-4">
-        <div class="card-label">Activity Feed</div>
-        <div class="big-text" style="font-size: 15px; color: var(--text-sub);">
-          Your system timeline is currently empty. Start interacting with PersonalOS to see your activity logs.
-        </div>
-        <div class="footer-note">No recent logs found</div>
-      </div>
-    </div>
-  </main>
-<script src="../../public/js/dashboard.js"></script>
-</body>
-</html>
+</div>

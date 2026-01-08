@@ -9,9 +9,6 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Global CSS -->
-  <link rel="stylesheet" href="/css/dashboard.css">
-
   <% if (styles) { %>
     <% styles.forEach(style => { %>
       <link rel="stylesheet" href="<%= style %>">
@@ -19,34 +16,17 @@
   <% } %>
 </head>
 
-<body>
-
-  <!-- Sidebar -->
-       <% if (title === 'dashboard') { %>
-  <%- include('../partials/sidebar') %>
-  <% } %>
+<body class="settings-layout">
 
   <main>
-
-    <!-- Top Navbar -->
-     <% if (title === 'dashboard') { %>
-  <%- include('../partials/navbar') %>
-<% } %>
-
-    <!-- Page Content -->
     <section class="page-content">
       <%- body %>
     </section>
-
-    <!-- Footer
-    <%- include('../partials/footer') %> -->
-
   </main>
 
-  <!-- Page Scripts -->
   <% if (scripts) { %>
     <% scripts.forEach(script => { %>
-      <script src="<%= script %>"></script>
+      <script src="<%= script %>" defer></script>
     <% }) %>
   <% } %>
 
