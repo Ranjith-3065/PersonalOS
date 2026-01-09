@@ -16,13 +16,22 @@
   <% } %>
 </head>
 
-<body class="settings-layout">
+<body>
 
-  <main>
-    <section class="page-content">
+  <!-- ✅ REQUIRED FLEX WRAPPER -->
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="settings-sidebar">
+      <%- include('../partials/sidebar', { sidebar, active, user }) %>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="settings-main">
       <%- body %>
-    </section>
-  </main>
+    </main>
+
+  </div>
 
   <% if (scripts) { %>
     <% scripts.forEach(script => { %>
