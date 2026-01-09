@@ -7,7 +7,9 @@ exports.getprofile = (req,res)=>{
         title:'profile',
         scripts:['/js/settings/profile.js'],
         styles:['/css/settings/profile.css'],
-        layout: 'layouts/settings'
+        layout: 'layouts/settings',
+        sidebar: 'settings',
+        active: 'profile'
     });
 }
 
@@ -18,7 +20,9 @@ exports.getaccount = (req,res)=>{
         title:'account',
         scripts:['/js/settings/account.js'],
         styles:['/css/settings/account.css'],
-        layout: 'layouts/settings'
+        layout: 'layouts/settings',
+        sidebar: 'settings',
+        active: 'account'
     });
 }
 exports.getpreferences = (req,res)=>{
@@ -27,8 +31,11 @@ exports.getpreferences = (req,res)=>{
         user:req.user,
         title:'preferences',
         scripts:['/js/settings/prefernce.js'],
-        styles:['/css/settings/prefernce.css'],
-        layout: 'layouts/settings'
+        styles:['/css/settings/preference.css'],
+        layout: 'layouts/settings',
+        sidebar: 'settings',
+        active: 'preferences'
+         
     });
 }
 
