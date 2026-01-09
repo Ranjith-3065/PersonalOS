@@ -25,7 +25,9 @@ app.use('/personalOS/dashboard',authmiddleware.authtoken,(req,res)=>{
         title:'dashboard',
         user:req.user,
         scripts:['/js/dashboard.js'],
-        styles:['/css/dashboard.css']
+        styles:['/css/dashboard.css'],
+        sidebar: 'dashboard',
+        active: 'dashboard'
     });
 })
 app.use('/personalOS',authrouter);
