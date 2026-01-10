@@ -1,0 +1,76 @@
+<!-- HEADER -->
+<header class="tasks-header">
+  <div>
+    <h1>Tasks</h1>
+    <p>Plan your day. Execute with focus.</p>
+  </div>
+
+  <a href="/personalOS/tasks/create" class="btn-primary">
+    + New Task
+  </a>
+</header>
+
+<!-- FILTER BAR -->
+<section class="tasks-filters">
+  <button class="filter-btn active">All</button>
+  <button class="filter-btn">Today</button>
+  <button class="filter-btn">Upcoming</button>
+  <button class="filter-btn">Completed</button>
+</section>
+
+<!-- TASKS CONTAINER -->
+<section class="tasks-container">
+
+  <% if (tasks && tasks.length) { %>
+
+    <% tasks.forEach(task => { %>
+      <div class="task-item <%= task.status %>">
+
+        <label class="task-left">
+          <input type="checkbox"
+                 <%= task.status === 'completed' ? 'checked' : '' %> />
+
+          <div class="task-text">
+            <h3>
+              <a href="/personalOS/tasks/<%= task._id %>">
+                <%= task.title %>
+              </a>
+            </h3>
+
+            <% if (task.description) { %>
+              <p><%= task.description %></p>
+            <% } %>
+          </div>
+        </label>
+
+        <div class="task-meta">
+          <% if (task.priority) { %>
+            <span class="priority <%= task.priority %>">
+              <%= task.priority %>
+            </span>
+          <% } %>
+
+          <% if (task.dueDate) { %>
+            <span class="due-date">
+              <%= new Date(task.dueDate).toLocaleDateString() %>
+            </span>
+          <% } %>
+        </div>
+
+      </div>
+    <% }) %>
+
+  <% } else { %>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-tasks">
+      <h2>No tasks yet</h2>
+      <p>Your workspace is clear. Start by creating a task.</p>
+      <a href="/personalOS/tasks/create" class="btn-primary">
+        Create Task
+      </a>
+    </div>
+
+  <% } %>
+
+</section>
