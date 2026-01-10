@@ -1,4 +1,4 @@
-<aside class="settings-sidebar">
+<aside class="sidebar">
 
   <!-- BRAND (COMMON) -->
   <div class="brand">
@@ -10,14 +10,14 @@
   <% if (sidebar === 'dashboard') { %>
 
     <div class="identity-card">
-      <div class="user-avatar" id="avatar">
-        <%= user?.name ? user.name.charAt(0).toUpperCase() : '?' %>
-      </div>
-      <div class="user-details">
-        <div class="u-name"><%= user?.name || "User" %></div>
-        <div class="u-role">Identity Verified</div>
-      </div>
-    </div>
+  <div class="user-avatar" id="avatar">?</div>
+
+  <div class="user-details">
+    <div class="u-name" id="username">Loading...</div>
+    <div class="u-role">Identity Verified</div>
+  </div>
+</div>
+
 
     <nav>
       <a href="/personalOS/dashboard" class="nav-item <%= active === 'dashboard' ? 'active' : '' %>">Dashboard</a>
@@ -74,5 +74,48 @@
     </nav>
 
   <% } %>
+  <!-- ================= TASKS SIDEBAR ================= -->
+<% if (sidebar === 'tasks') { %>
+
+  <a href="/personalOS/dashboard" class="back-nav">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    Back to Dashboard
+  </a>
+
+  <nav>
+    <a href="/personalOS/tasks"
+       class="nav-item <%= active === 'tasks' ? 'active' : '' %>">
+      All Tasks
+    </a>
+
+    <a href="/personalOS/tasks/today"
+       class="nav-item <%= active === 'today' ? 'active' : '' %>">
+      Today
+    </a>
+
+    <a href="/personalOS/tasks/upcoming"
+       class="nav-item <%= active === 'upcoming' ? 'active' : '' %>">
+      Upcoming
+    </a>
+
+    <a href="/personalOS/tasks/completed"
+       class="nav-item <%= active === 'completed' ? 'active' : '' %>">
+      Completed
+    </a>
+
+    <a href="/personalOS/tasks/create"
+       class="nav-item"
+       style="margin-top:auto;">
+      + New Task
+    </a>
+  </nav>
+
+<% } %>
+
 
 </aside>
