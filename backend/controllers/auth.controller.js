@@ -4,11 +4,20 @@ const {sendmaillink} = require('../services/settings.service');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const crypto = require('crypto');
+
+const { authtoken } = require('../middleware/auth.middleware');
 dotenv.config();
 // signup
 exports.getsignup = (req,res)=>{
     console.log("url",req.url);
-    res.render('auth/signup');
+    res.render('auth/signup',{
+        layout:'layouts/auth',
+        title:'signup',
+        subtitle:'signup'
+    });
+    
+    
 }
 exports.postsignup = async (req,res)=>{
     console.log('url of post',req.url);
@@ -30,7 +39,11 @@ exports.postsignup = async (req,res)=>{
 //login
 exports.getlogin = (req,res)=>{
     console.log("url",req.url);
-    res.render('auth/login');
+    res.render('auth/login',{
+        layout:'layouts/auth',
+        title:'login',
+        subtitle:'login'
+    });
 }
 exports.postlogin = async (req,res)=>{
     const {email,password} = req.body;
@@ -68,12 +81,16 @@ exports.postlogin = async (req,res)=>{
 //forgotpass
 exports.getforgotpass = (req,res)=>{
     console.log('url',req.url);
-    res.render('auth/forgotPassword');
+res.render('auth/forgotPassword',{
+    layout:'layouts/auth',
+        title:'frogotpassword',
+        subtitle:'forgotpassword'
+});
 }
 exports.postresetpass = async(req,res)=>{
     console.log('i came here');
     const {email} = req.body;
-    const token = 'hi1234';
+    const token = crypto.randomBytes(32).toString('hex');
     const usertoken = await user.findOne({email});
     usertoken.tokenforreset = token;
     await usertoken.save();
@@ -84,17 +101,27 @@ exports.postresetpass = async(req,res)=>{
 
 }
 exports.getresetpass = (req,res)=>{
-    res.render('auth/passwordreset');
+    res.render('auth/passwordreset',{
+        layout:'layouts/auth',
+        title:'passwordreset',
+        subtitle:'passwordreset'
+    });
 }
 
 
 exports.postresetpassword = async(req,res)=>{
     const {password} = req.body;
     const {token} = req.params;
+    const haspassword =await bcrypt.hash(password,10);
     const userdetails = await user.findOne({tokenforreset:token}).select("+password");
-        const haspassword =await bcrypt.hash(password,10);
+    
+console.log("PASSWORD IN DB:", userdetails.password);
+        console.log(haspassword);
         userdetails.password = haspassword;
+        console.log(userdetails.password);
         await userdetails.save();
+         console.log(userdetails.password);
+          console.log(userdetails);
         res.status(200).json({success:true});
 
 }
