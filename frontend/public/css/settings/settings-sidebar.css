@@ -1,0 +1,138 @@
+/* =========================
+   SIDEBAR VARIABLES
+========================= */
+:root {
+  --sidebar-bg: #ffffff;
+  --accent: #111827;
+  --text-main: #111827;
+  --text-sub: #71717a;
+  --border: #e5e7eb;
+}
+
+/* =========================
+   SIDEBAR CONTAINER
+========================= */
+.sidebar {
+  width: 260px;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  padding: 32px 20px;
+  position: fixed;
+  inset: 0 auto 0 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* BRAND */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 18px;
+  margin-bottom: 24px;
+  padding-left: 6px;
+}
+
+/* =========================
+   USER IDENTITY CARD
+========================= */
+.identity-card {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 14px;
+  border-radius: 14px;
+  background: #f9fafb;
+  border: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-details .u-name {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.user-details .u-role {
+  font-size: 11px;
+  color: var(--text-sub);
+}
+
+/* =========================
+   SIDEBAR NAVIGATION
+========================= */
+nav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-sub);
+  text-decoration: none;
+  border-radius: 8px;
+  margin-bottom: 4px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-item:hover {
+  background: #f9fafb;
+  color: var(--text-main);
+}
+
+.nav-item.active {
+  background: #f3f4f6;
+  color: var(--text-main);
+}
+.back-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 28px;
+  padding: 10px 12px;
+
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+
+  color: var(--text-sub);
+  background: transparent;
+  border-radius: 10px;
+
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+/* Hover */
+.back-nav:hover {
+  background: var(--input-bg);
+  color: var(--text-main);
+}
+
+/* Active click feedback */
+.back-nav:active {
+  transform: translateX(-2px);
+}
+
+/* Optional icon styling (if SVG inside) */
+.back-nav svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2.5;
+}
