@@ -23,7 +23,6 @@ app.use('/personalOS/dashboard',authmiddleware.authtoken,(req,res)=>{
     console.log("requested:",req.user);
     res.render('dashboard/index',{
         title:'dashboard',
-        user:req.user,
         scripts:['/js/dashboard.js'],
         styles:['/css/dashboard.css'],
         sidebar: 'dashboard',
