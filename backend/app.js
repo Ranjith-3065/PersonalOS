@@ -19,7 +19,8 @@ app.use(express.static(path.join(__dirname, '../frontend/public')));
 const authrouter = require('./routes/auth.routes');
 const authmiddleware = require('./middleware/auth.middleware')
 const seetingrouter = require('./routes/settings.routes');
-app.use('/personalOS/dashboard',authmiddleware.authtoken,(req,res)=>{
+const tasksrouter = require('./routes/tasks.routes');
+app.use('/personalOS/dashboard',authmiddleware.authtokendashboard,(req,res)=>{
     console.log("requested:",req.user);
     res.render('dashboard/index',{
         title:'dashboard',
@@ -31,4 +32,5 @@ app.use('/personalOS/dashboard',authmiddleware.authtoken,(req,res)=>{
 })
 app.use('/personalOS',authrouter);
 app.use('/personalOS',authmiddleware.authtoken,seetingrouter);
+app.use('/personalOS',authmiddleware.authtoken,tasksrouter);
 module.exports = app;
