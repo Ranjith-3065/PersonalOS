@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 dotenv.config();
 
-exports.authtoken = (req,res, next)=>{
+exports.authtokendashboard = (req,res, next)=>{
     const token = req.cookies.token;
     if(!token){
         // return res.status(400).json({suceess:false,message:"login first"});
@@ -18,3 +18,17 @@ exports.authtoken = (req,res, next)=>{
     }
 
 }
+exports.authtoken = (req,res, next)=>{
+    const token = req.cookies.token;
+    if(!token){
+        return res.status(400).json({suceess:false,message:"login first"});
+        next();
+    }
+    else{
+    const decodedtoken = jwt.verify(token,process.env.JWT);
+    req.user = decodedtoken;
+    next();
+    }
+
+}
+
