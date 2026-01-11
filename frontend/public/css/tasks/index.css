@@ -6,6 +6,9 @@
   align-items: center;
   margin-bottom: 28px;
 }
+.main{
+  margin-left: 320px;
+}
 
 .tasks-header h1 {
   font-size: 24px;
