@@ -1,21 +1,37 @@
 <!-- HEADER -->
 <header class="tasks-header">
-  <div>
+  <div class="header-left">
     <h1>Tasks</h1>
     <p>Plan your day. Execute with focus.</p>
+
+    <!-- Quick Stats -->
+    <div class="task-stats">
+      <span><strong id="totalCount">0</strong> Total</span>
+      <span><strong id="todayCount">0</strong> Today</span>
+      <span><strong id="completedCount">0</strong> Done</span>
+    </div>
   </div>
 
-  <a href="/personalOS/tasks/create" class="btn-primary">
-    + New Task
-  </a>
+  <div class="header-actions">
+    <a href="/personalOS/tasks/create" class="btn-primary">
+      + New Task
+    </a>
+  </div>
 </header>
 
-<!-- FILTER BAR -->
-<section class="tasks-filters">
-  <button class="filter-btn active" data-filter="all">All</button>
-  <button class="filter-btn" data-filter="today">Today</button>
-  <button class="filter-btn" data-filter="upcoming">Upcoming</button>
-  <button class="filter-btn" data-filter="completed">Completed</button>
+<!-- FILTER + SEARCH BAR -->
+<section class="tasks-toolbar">
+  <div class="tasks-filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="today">Today</button>
+    <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+    <button class="filter-btn" data-filter="completed">Completed</button>
+  </div>
+
+  <!-- Search -->
+  <div class="tasks-search">
+    <input type="text" id="taskSearch" placeholder="Search tasks..." />
+  </div>
 </section>
 
 <!-- TASKS CONTAINER -->
@@ -26,15 +42,35 @@
     <p>Loading tasks...</p>
   </div>
 
-  <!-- Tasks will be injected here by JS -->
+  <!-- Example Task Card (JS will generate these) -->
+  <!--
+  <div class="task-card priority-high">
+    <div class="task-main">
+      <input type="checkbox" />
+      <div>
+        <h3>Finish dashboard UI</h3>
+        <p>Improve tasks page layout and styling</p>
+      </div>
+    </div>
+
+    <div class="task-meta">
+      <span class="task-date">📅 Today</span>
+      <span class="task-tag">Work</span>
+    </div>
+  </div>
+  -->
 
 </section>
 
-<!-- EMPTY STATE (hidden by default) -->
+<!-- EMPTY STATE -->
 <section class="empty-tasks" id="emptyState" style="display:none;">
   <h2>No tasks yet</h2>
-  <p>Your workspace is clear. Start by creating a task.</p>
-  <a href="/personalOS/tasks/create" class="btn-primary">
-    Create Task
-  </a>
+  <p>Your workspace is clear. Start by creating a task and build momentum.</p>
+
+  <div class="empty-actions">
+    <a href="/personalOS/tasks/create" class="btn-primary">
+      Create Task
+    </a>
+    <p class="empty-hint">Tip: Break big goals into small tasks ✨</p>
+  </div>
 </section>
