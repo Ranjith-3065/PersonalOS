@@ -7,7 +7,7 @@ exports.gettasksdashboard = (req,res)=>{
         layout : 'layouts/tasks',
         sidebar: 'tasks',
         styles : ['/css/tasks/index.css','/css/settings/settings-sidebar.css'],
-        scripts:[],
+        scripts:['/js/tasks/index.js'],
         active: 'tasks',
         title:'tasks'
     });
@@ -15,6 +15,4 @@ exports.gettasksdashboard = (req,res)=>{
 
 exports.posttaskscreate = async(req,res)=>{
     const userid = req.user.id;
-    const userdetails = await user.findById(userid);
-
 }
