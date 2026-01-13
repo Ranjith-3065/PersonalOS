@@ -4,7 +4,8 @@ const router = express.Router();
 const taskscontroller = require('../controllers/tasks.controller');
 
 router.get('/tasksdashboard',taskscontroller.gettasksdashboard);
-router.post('/taskscreate')
+router.get('/tasks/create',taskscontroller.gettaskscreate);
+// router.post('/taskscreate')
 
 
 
