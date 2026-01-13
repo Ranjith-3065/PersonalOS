@@ -13,6 +13,21 @@ exports.gettasksdashboard = (req,res)=>{
     });
 }
 
+exports.gettaskscreate = (req,res)=>{
+res.render('tasks/create',{
+        layout : 'layouts/tasks',
+        sidebar: 'tasks',
+        styles : ['/css/tasks/create.css','/css/settings/settings-sidebar.css'],
+        scripts:['/js/tasks/index.js'],
+        active: 'tasks',
+        title:'tasks'
+    });
+}
+
 exports.posttaskscreate = async(req,res)=>{
     const userid = req.user.id;
+    const {title, discription} = req.body;
+    const taskdetails = new tasks({id:userid,title:title,discription:discription});
+    await taskdetails.save();
+
 }
