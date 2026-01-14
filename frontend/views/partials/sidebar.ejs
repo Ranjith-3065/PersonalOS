@@ -77,6 +77,7 @@
   <!-- ================= TASKS SIDEBAR ================= -->
 <% if (sidebar === 'tasks') { %>
 
+  <!-- BACK -->
   <a href="/personalOS/dashboard" class="back-nav">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
       stroke="currentColor" stroke-width="2.5"
@@ -84,38 +85,77 @@
       <line x1="19" y1="12" x2="5" y2="12"></line>
       <polyline points="12 19 5 12 12 5"></polyline>
     </svg>
-    Back to Dashboard
+    Back to Main Dashboard
   </a>
 
-  <nav>
-    <a href="/personalOS/tasks"
-       class="nav-item <%= active === 'tasks' ? 'active' : '' %>">
-      All Tasks
+  <nav class="sidebar-nav">
+
+    <!-- DASHBOARD -->
+    <a href="/personalOS/tasks/dashboard"
+       class="nav-item <%= active === 'dashboard' ? 'active' : '' %>">
+      📊 Task Dashboard
+      <span class="nav-sub">Overview & Progress</span>
     </a>
 
-    <a href="/personalOS/tasks/today"
-       class="nav-item <%= active === 'today' ? 'active' : '' %>">
-      Today
-    </a>
+    <!-- VIEW -->
+    <div class="nav-group">
+      <div class="nav-label">View</div>
 
-    <a href="/personalOS/tasks/upcoming"
-       class="nav-item <%= active === 'upcoming' ? 'active' : '' %>">
-      Upcoming
-    </a>
+      <a href="/personalOS/tasks"
+         class="nav-item <%= active === 'all' ? 'active' : '' %>">
+        📋 All Tasks
+      </a>
 
-    <a href="/personalOS/tasks/completed"
-       class="nav-item <%= active === 'completed' ? 'active' : '' %>">
-      Completed
-    </a>
+      <a href="/personalOS/tasks/today"
+         class="nav-item <%= active === 'today' ? 'active' : '' %>">
+        📅 Today
+      </a>
 
-    <a href="/personalOS/tasks/create"
-       class="nav-item"
-       style="margin-top:auto;">
-      + New Task
-    </a>
+      <a href="/personalOS/tasks/upcoming"
+         class="nav-item <%= active === 'upcoming' ? 'active' : '' %>">
+        ⏳ Upcoming
+      </a>
+
+      <a href="/personalOS/tasks/completed"
+         class="nav-item <%= active === 'completed' ? 'active' : '' %>">
+        ✅ Completed
+      </a>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="nav-group">
+      <div class="nav-label">Actions</div>
+
+      <a href="/personalOS/tasks/create"
+         class="nav-item primary">
+        ➕ Create Task
+      </a>
+
+      <a href="/personalOS/tasks/edit"
+         class="nav-item">
+        ✏️ Edit Tasks
+      </a>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="nav-group">
+      <div class="nav-label">Insights</div>
+
+      <a href="/personalOS/tasks/progress"
+         class="nav-item <%= active === 'progress' ? 'active' : '' %>">
+        📈 Progress Tracker
+      </a>
+
+      <a href="/personalOS/tasks/archived"
+         class="nav-item <%= active === 'archived' ? 'active' : '' %>">
+        🗂 Archived
+      </a>
+    </div>
+
   </nav>
 
 <% } %>
+
 
 
 </aside>

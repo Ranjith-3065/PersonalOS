@@ -1,76 +1,105 @@
-<!-- HEADER -->
-<header class="tasks-header">
-  <div class="header-left">
-    <h1>Tasks</h1>
-    <p>Plan your day. Execute with focus.</p>
 
-    <!-- Quick Stats -->
-    <div class="task-stats">
-      <span><strong id="totalCount">0</strong> Total</span>
-      <span><strong id="todayCount">0</strong> Today</span>
-      <span><strong id="completedCount">0</strong> Done</span>
+<body>
+
+  <!-- HEADER -->
+  <header class="dashboard-header">
+    <h1>Task Dashboard</h1>
+    <p>Track progress, priorities, and productivity</p>
+  </header>
+
+  <!-- STATS -->
+  <section class="stats-grid">
+    <div class="stat-card">
+      <h4>Total Tasks</h4>
+      <p id="stat-total">0</p>
     </div>
-  </div>
 
-  <div class="header-actions">
-    <a href="/personalOS/tasks/create" class="btn-primary">
-      + New Task
-    </a>
-  </div>
-</header>
+    <div class="stat-card pending">
+      <h4>Pending</h4>
+      <p id="stat-pending">0</p>
+    </div>
 
-<!-- FILTER + SEARCH BAR -->
-<section class="tasks-toolbar">
-  <div class="tasks-filters">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="today">Today</button>
-    <button class="filter-btn" data-filter="upcoming">Upcoming</button>
-    <button class="filter-btn" data-filter="completed">Completed</button>
-  </div>
+    <div class="stat-card progress">
+      <h4>In Progress</h4>
+      <p id="stat-progress">0</p>
+    </div>
 
-  <!-- Search -->
-  <div class="tasks-search">
-    <input type="text" id="taskSearch" placeholder="Search tasks..." />
-  </div>
-</section>
+    <div class="stat-card completed">
+      <h4>Completed</h4>
+      <p id="stat-completed">0</p>
+    </div>
+  </section>
 
-<!-- TASKS CONTAINER -->
-<section class="tasks-container" id="tasksContainer">
+  <!-- TASK LIST -->
+  <section class="task-section">
+    <h2>Your Tasks</h2>
 
-  <!-- Loading state -->
-  <div class="tasks-loading" id="tasksLoading">
-    <p>Loading tasks...</p>
-  </div>
+    <!-- TASKS WILL BE INSERTED HERE -->
+    <div id="task-list">
 
-  <!-- Example Task Card (JS will generate these) -->
-  <!--
-  <div class="task-card priority-high">
-    <div class="task-main">
-      <input type="checkbox" />
-      <div>
-        <h3>Finish dashboard UI</h3>
-        <p>Improve tasks page layout and styling</p>
+      <!-- SAMPLE STRUCTURE (clone this via JS) -->
+      <div class="task-card">
+        <div class="task-top">
+          <h3 class="task-title">Task title</h3>
+          <span class="status pending">pending</span>
+        </div>
+
+        <p class="task-desc">Task description goes here</p>
+
+        <div class="meta-grid">
+          <div>
+            <label>Priority</label>
+            <span class="priority medium">medium</span>
+          </div>
+
+          <div>
+            <label>Category</label>
+            <span class="task-category">personal</span>
+          </div>
+
+          <div>
+            <label>Due</label>
+            <span class="task-due">—</span>
+          </div>
+
+          <div>
+            <label>Estimated</label>
+            <span class="task-estimated">0 min</span>
+          </div>
+
+          <div>
+            <label>Actual</label>
+            <span class="task-actual">0 min</span>
+          </div>
+        </div>
+
+        <div class="tags">
+          <!-- <span>#tag</span> -->
+        </div>
+
+        <div class="subtasks">
+          <h4>Subtasks</h4>
+          <ul class="subtask-list">
+            <!-- <li class="done">Subtask</li> -->
+          </ul>
+        </div>
       </div>
+
     </div>
+  </section>
+<script>
+  (async () => {
+    const res = await fetch('/personalOS/taskdashboardload',{
+      method: 'POST'
+    })
+    const data =await res.json();
+    if(data.success){
+      console.log(data.estimatedTime)
+      document.querySelector('.task-actual').textContent = data.estimatedTime;
+      
+    }
+  })
+  ();
+</script>
+</body>
 
-    <div class="task-meta">
-      <span class="task-date">📅 Today</span>
-      <span class="task-tag">Work</span>
-    </div>
-  </div>
-  -->
-
-</section>
-
-<!-- EMPTY STATE -->
-<section class="empty-tasks" id="emptyState" style="display:none;">
-  <h2>No tasks yet</h2>
-  <p>Your workspace is clear. Start by creating a task and build momentum.</p>
-
-  <div class="empty-actions">
-    <a href="/personalOS/tasks/create" class="btn-primary">
-      Create Task
-    </a>
-    <p class="empty-hint">Tip: Break big goals into small tasks ✨</p>
-  </div>
-</section>
