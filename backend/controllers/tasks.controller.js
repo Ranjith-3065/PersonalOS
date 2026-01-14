@@ -6,11 +6,20 @@ exports.gettasksdashboard = (req,res)=>{
     res.render('tasks/index',{
         layout : 'layouts/tasks',
         sidebar: 'tasks',
-        styles : ['/css/tasks/index.css','/css/settings/settings-sidebar.css'],
+        styles : ['/css/tasks/index.css','/css/tasks/tasks-sidebar.css'],
         scripts:['/js/tasks/index.js'],
-        active: 'tasks',
-        title:'tasks'
+        active: 'dashboard',
+        title:'tasks dashboard'
     });
+}
+
+exports.posttasksdashboard = async(req,res)=>{
+    const userid = req.user.id;
+    const taskdetails = await tasks.findOne({ userId: userid });
+    res.status(200).json({success:true,
+        title:taskdetails.title,description:taskdetails.description,
+        status:taskdetails.status,priority:taskdetails.priority,
+        category:taskdetails.category,dueDate:taskdetails.dueDate,estimatedTime:taskdetails.estimatedTime});
 }
 
 exports.gettaskscreate = (req,res)=>{
@@ -26,8 +35,9 @@ res.render('tasks/create',{
 
 exports.posttaskscreate = async(req,res)=>{
     const userid = req.user.id;
-    const {title, discription} = req.body;
-    const taskdetails = new tasks({id:userid,title:title,discription:discription});
+    console.log(req.body);
+    const {title, description,status,priority,category,dueDate,estimatedTime} = req.body;
+    const taskdetails = new tasks({userId:userid,title, description,status,priority,category,dueDate,estimatedTime});
     await taskdetails.save();
-
+    res.status(200).json({success:true});
 }
