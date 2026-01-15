@@ -96,6 +96,11 @@
     if(data.success){
       console.log(data.estimatedTime)
       document.querySelector('.task-actual').textContent = data.estimatedTime;
+      document.querySelector('task-title').textContent = data.title;
+      document.querySelector('status pending').textContent = data.status;
+      document.querySelector('task-desc').textContent = data.description;
+      document.querySelector('priority medium').textContent = data.priority;
+      document.querySelector('Category').textContent = data.category;
       
     }
   })
