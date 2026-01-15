@@ -94,4 +94,6 @@ const taskSchema = new mongoose.Schema(
   }
 );
 
+
+//  here i need to add like how many tasks are the in certain user and count of pending completed and in progress that makes more prefect
 module.exports = mongoose.model('Task', taskSchema);
