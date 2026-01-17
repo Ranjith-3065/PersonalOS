@@ -11,33 +11,40 @@ body {
   background-color: #f9fafb;
   color: #111827;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 40px 16px;
+  /* ❌ REMOVED flex centering */
+  padding: 32px 24px;
+}
+
+/* PAGE WRAPPER / MAIN CONTENT
+   (works even if you don’t have a wrapper class) */
+main,
+.content,
+.main-content {
+  width: 100%;
+  padding: 0 400px;
 }
 
 /* FORM CONTAINER */
 form {
   width: 100%;
-  max-width: 520px;
+  max-width: 1100px; /* fills dashboard space */
   background: #ffffff;
-  padding: 28px;
+  padding: 36px 40px;
   border-radius: 14px;
   border: 1px solid #e5e7eb;
 }
 
 /* PAGE TITLE */
 h1 {
-  text-align: center;
-  margin-bottom: 24px;
-  font-size: 24px;
+  margin-bottom: 28px;
+  font-size: 26px;
   font-weight: 600;
+  text-align: left; /* dashboard-style */
 }
 
 /* FORM GROUP */
 form > div {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 /* LABELS */
@@ -56,7 +63,7 @@ input[type="number"],
 textarea,
 select {
   width: 100%;
-  padding: 10px 12px;
+  padding: 11px 12px;
   font-size: 14px;
   border-radius: 8px;
   border: 1px solid #d1d5db;
@@ -68,7 +75,7 @@ select {
 /* TEXTAREA */
 textarea {
   resize: vertical;
-  min-height: 90px;
+  min-height: 100px;
 }
 
 /* FOCUS STATE */
@@ -79,7 +86,7 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
 
-/* SUBTASKS */
+/* SUBTASKS TITLE */
 p {
   font-size: 14px;
   font-weight: 500;
@@ -87,6 +94,7 @@ p {
   margin-bottom: 8px;
 }
 
+/* SUBTASK INPUT */
 input[name^="subtasks"] {
   margin-bottom: 10px;
 }
@@ -94,7 +102,7 @@ input[name^="subtasks"] {
 /* BUTTON */
 button {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   font-size: 15px;
   font-weight: 600;
   border-radius: 10px;
@@ -120,5 +128,4 @@ p.error {
   color: #dc2626;
   font-size: 14px;
   margin-bottom: 16px;
-  text-align: center;
 }
