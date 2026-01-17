@@ -18,11 +18,11 @@
     <!-- TITLE -->
     <div>
       <label for="title">Title *</label><br>
-      <input 
-        type="text" 
-        id="title" 
-        name="title" 
-        maxlength="120" 
+      <input
+        type="text"
+        id="title"
+        name="title"
+        maxlength="120"
         required
       >
     </div>
@@ -32,24 +32,12 @@
     <!-- DESCRIPTION -->
     <div>
       <label for="description">Description</label><br>
-      <textarea 
-        id="description" 
-        name="description" 
-        rows="4" 
+      <textarea
+        id="description"
+        name="description"
+        rows="4"
         cols="40"
       ></textarea>
-    </div>
-
-    <br>
-
-    <!-- STATUS -->
-    <div>
-      <label for="status">Status</label><br>
-      <select id="status" name="status">
-        <option value="pending">Pending</option>
-        <option value="in-progress">In Progress</option>
-        <option value="completed">Completed</option>
-      </select>
     </div>
 
     <br>
@@ -91,10 +79,10 @@
     <!-- TAGS -->
     <div>
       <label for="tags">Tags (comma separated)</label><br>
-      <input 
-        type="text" 
-        id="tags" 
-        name="tags" 
+      <input
+        type="text"
+        id="tags"
+        name="tags"
         placeholder="example: urgent,frontend,exam"
       >
     </div>
@@ -104,23 +92,27 @@
     <!-- ESTIMATED TIME -->
     <div>
       <label for="estimatedTime">Estimated Time (minutes)</label><br>
-      <input 
-        type="number" 
-        id="estimatedTime" 
-        name="estimatedTime" 
+      <input
+        type="number"
+        id="estimatedTime"
+        name="estimatedTime"
         min="0"
       >
     </div>
 
     <br>
 
-    <!-- SUBTASKS (STATIC 3 INPUTS) -->
+    <!-- SUBTASKS -->
     <div>
       <p>Subtasks</p>
-
-      <input type="text" name="subtasks[0][title]" placeholder="Subtask 1"><br><br>
+      <input type="text" name="subtasks[0][title]" placeholder="Subtask 1">
     </div>
-    <button type="submit">submit</button>
-    <!-- here i shouldn't enter it is pending or in progress or done becuase user will not enter that manually right -->
+
+    <br>
+
+    <button type="submit">Create Task</button>
+
   </form>
-  
+
+</body>
+</html>
