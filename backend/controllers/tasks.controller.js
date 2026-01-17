@@ -16,12 +16,11 @@ exports.gettasksdashboard = (req,res)=>{
 exports.posttasksdashboard = async(req,res)=>{
     const userid = req.user.id;
     // here i need make like fetch all the task of the user not one so i need use find and array method in the frontend remember
-    const taskdetails = await tasks.findOne({ userId: userid });
+    const taskdetails = await tasks.find({ userId: userid });
+    total = taskdetails.length;
     // then send the json data also changes 
     res.status(200).json({success:true,
-        title:taskdetails.title,description:taskdetails.description,
-        status:taskdetails.status,priority:taskdetails.priority,
-        category:taskdetails.category,dueDate:taskdetails.dueDate,estimatedTime:taskdetails.estimatedTime});
+        taskdetails,total});
 }
 
 exports.gettaskscreate = (req,res)=>{
