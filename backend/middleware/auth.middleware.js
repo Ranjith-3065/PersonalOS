@@ -21,8 +21,8 @@ exports.authtokendashboard = (req,res, next)=>{
 exports.authtoken = (req,res, next)=>{
     const token = req.cookies.token;
     if(!token){
-        return res.status(400).json({suceess:false,message:"login first"});
-        next();
+        // return res.status(400).json({suceess:false,message:"login first"});
+        res.redirect('/personalOS/login')
     }
     else{
     const decodedtoken = jwt.verify(token,process.env.JWT);
