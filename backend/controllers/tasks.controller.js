@@ -1,6 +1,8 @@
 const tasks = require('../models/Task.model');
 const user = require('../models/User.model');
 
+// dashboard
+
 exports.gettasksdashboard = (req,res)=>{
     console.log('req url',req.url);
     res.render('tasks/index',{
@@ -23,6 +25,9 @@ exports.posttasksdashboard = async(req,res)=>{
         taskdetails,total});
 }
 
+
+// create
+
 exports.gettaskscreate = (req,res)=>{
 res.render('tasks/create',{
         layout : 'layouts/tasks',
@@ -41,4 +46,29 @@ exports.posttaskscreate = async(req,res)=>{
     const taskdetails = new tasks({userId:userid,title, description,status,priority,category,dueDate,estimatedTime});
     await taskdetails.save();
     res.status(200).json({success:true});
+}
+
+
+// tasks of today upcoming and completed
+
+exports.posttaskprogress = async(req,res)=>{
+    const date = req.params.dateoftody;
+    const userId = req.user.id;
+    const usertaskdetails = await tasks.find({userId})
+    let taskarraytoday = [];
+    let taskarrayupcoming = [];
+    let taskarraycompleted = [];
+    usertaskdetails.forEach(task => {
+        if(task.dueDate == date){
+            taskarraytoday.push(task);
+        }
+        else if(task.dueDate >= date){
+              taskarrayupcoming.push(task);
+        }
+        else{
+            taskarraycompleted.push(task);
+        }
+
+    });
+    return res.status(200).json({success:true,taskarraytoday,taskarrayupcoming,taskarraycompleted})
 }
