@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Task Dashboard</title>
+</head>
 
 <body>
 
@@ -35,133 +41,125 @@
     <h2>Your Tasks</h2>
 
     <!-- TASKS WILL BE INSERTED HERE -->
-    <div id="task-list">
+    <div id="task-list"></div>
+  </section>
 
-      <!-- SAMPLE STRUCTURE (clone this via JS) -->
-      <div class="task-card">
-        <div class="task-top">
-          <h3 class="task-title">Task title</h3>
-          <span class="status pending">pending</span>
+  <!-- TASK TEMPLATE -->
+  <template id="task-template">
+    <div class="task-card">
+      <div class="task-top">
+        <h3 class="task-title"></h3>
+        <span class="status"></span>
+      </div>
+
+      <p class="task-desc"></p>
+
+      <div class="meta-grid">
+        <div>
+          <label>Priority</label>
+          <span class="priority"></span>
         </div>
 
-        <p class="task-desc">Task description goes here</p>
-
-        <div class="meta-grid">
-          <div>
-            <label>Priority</label>
-            <span class="priority medium">medium</span>
-          </div>
-
-          <div>
-            <label>Category</label>
-            <span class="task-category">personal</span>
-          </div>
-
-          <div>
-            <label>Due</label>
-            <span class="task-due">—</span>
-          </div>
-
-          <div>
-            <label>Estimated</label>
-            <span class="task-estimated">0 min</span>
-          </div>
-
-          <div>
-            <label>Actual</label>
-            <span class="task-actual">0 min</span>
-          </div>
+        <div>
+          <label>Category</label>
+          <span class="task-category"></span>
         </div>
 
-        <div class="tags">
-          <!-- <span>#tag</span> -->
+        <div>
+          <label>Due</label>
+          <span class="task-due">—</span>
         </div>
 
-        <div class="subtasks">
-          <h4>Subtasks</h4>
-          <ul class="subtask-list">
-            <!-- <li class="done">Subtask</li> -->
-          </ul>
+        <div>
+          <label>Estimated</label>
+          <span class="task-estimated">0 min</span>
+        </div>
+
+        <div>
+          <label>Actual</label>
+          <span class="task-actual">0 min</span>
         </div>
       </div>
 
+      <div class="subtasks">
+        <h4>Subtasks</h4>
+        <ul class="subtask-list"></ul>
+      </div>
     </div>
-  </section>
+  </template>
+
+  <!-- SCRIPT -->
   <script>
     (async () => {
       const res = await fetch('/personalOS/taskdashboardload', {
         method: 'POST'
       });
-    
+
       const data = await res.json();
       if (!data.success) return;
-    
+
       const taskList = document.getElementById('task-list');
-      taskList.innerHTML = ''; // clear existing content
-    
+      const template = document.getElementById('task-template');
+
+      taskList.innerHTML = '';
+
+      // stats
+      document.getElementById('stat-total').textContent = data.taskdetails.length;
+      document.getElementById('stat-pending').textContent =
+        data.taskdetails.filter(t => t.status === 'pending').length;
+      document.getElementById('stat-progress').textContent =
+        data.taskdetails.filter(t => t.status === 'in-progress').length;
+      document.getElementById('stat-completed').textContent =
+        data.taskdetails.filter(t => t.status === 'completed').length;
+
       data.taskdetails.forEach(task => {
-        const taskHTML = `
-          <div class="task-card">
-            <div class="task-top">
-              <h3 class="task-title">${task.title}</h3>
-              <span class="status ${task.status}">${task.status}</span>
-            </div>
-    
-            <p class="task-desc">${task.description || ''}</p>
-    
-            <div class="meta-grid">
-              <div>
-                <label>Priority</label>
-                <span class="priority ${task.priority}">${task.priority}</span>
-              </div>
-    
-              <div>
-                <label>Category</label>
-                <span class="task-category">${task.category || '-'}</span>
-              </div>
-    
-              <div>
-                <label>Due</label>
-                <span class="task-due">${task.dueDate || '—'}</span>
-              </div>
-    
-              <div>
-                <label>Estimated</label>
-                <span class="task-estimated">${task.estimatedTime || 0} min</span>
-              </div>
-    
-              <div>
-                <label>Actual</label>
-                <span class="task-actual">${task.actualTime || 0} min</span>
-              </div>
-            </div>
-    
-            ${
-              task.subtasks && task.subtasks.length
-                ? `
-                <div class="subtasks">
-                  <h4>Subtasks</h4>
-                  <ul class="subtask-list">
-                    ${task.subtasks
-                      .map(
-                        sub =>
-                          `<li class="${sub.completed ? 'done' : ''}">
-                            ${sub.title}
-                          </li>`
-                      )
-                      .join('')}
-                  </ul>
-                </div>
-                `
-                : ''
-            }
-          </div>
-        `;
-    
-        taskList.insertAdjacentHTML('beforeend', taskHTML);
+        const clone = template.content.cloneNode(true);
+
+        clone.querySelector('.task-title').textContent = task.title;
+
+        const statusEl = clone.querySelector('.status');
+        statusEl.textContent = task.status;
+        statusEl.classList.add(task.status);
+
+        clone.querySelector('.task-desc').textContent =
+          task.description || '';
+
+        const priorityEl = clone.querySelector('.priority');
+        priorityEl.textContent = task.priority;
+        priorityEl.classList.add(task.priority);
+
+        clone.querySelector('.task-category').textContent =
+          task.category || '-';
+
+        clone.querySelector('.task-due').textContent =
+          task.dueDate
+            ? new Date(task.dueDate).toLocaleDateString('en-IN')
+            : '—';
+
+        clone.querySelector('.task-estimated').textContent =
+          `${task.estimatedTime || 0} min`;
+
+        clone.querySelector('.task-actual').textContent =
+          `${task.actualTime || 0} min`;
+
+        const subtaskList = clone.querySelector('.subtask-list');
+        const subtasksContainer = clone.querySelector('.subtasks');
+
+        if (task.subtasks && task.subtasks.length) {
+          task.subtasks.forEach(sub => {
+            const li = document.createElement('li');
+            li.textContent = sub.title;
+            if (sub.completed) li.classList.add('done');
+            subtaskList.appendChild(li);
+          });
+        } else {
+          subtasksContainer.remove();
+        }
+
+        taskList.appendChild(clone);
       });
     })();
-    </script>
-    
-</body>
+  </script>
 
+</body>
+</html>
