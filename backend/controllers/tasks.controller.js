@@ -51,24 +51,20 @@ exports.posttaskscreate = async(req,res)=>{
 
 // tasks of today upcoming and completed
 
-exports.posttaskprogress = async(req,res)=>{
-    const date = req.params.dateoftody;
-    const userId = req.user.id;
-    const usertaskdetails = await tasks.find({userId})
-    let taskarraytoday = [];
-    let taskarrayupcoming = [];
-    let taskarraycompleted = [];
-    usertaskdetails.forEach(task => {
-        if(task.dueDate == date){
-            taskarraytoday.push(task);
-        }
-        else if(task.dueDate >= date){
-              taskarrayupcoming.push(task);
-        }
-        else{
-            taskarraycompleted.push(task);
-        }
+exports.posttaskprogresstoday = async(req,res)=>{
+   const userid = req.user.id;
+   const taksdetails = await tasks.find({userId:userid,});
+    res.status(200).json({success:true,taksdetails});
+}
 
-    });
-    return res.status(200).json({success:true,taskarraytoday,taskarrayupcoming,taskarraycompleted})
+exports.posttaskprogressupcoming = async(req,res)=>{
+    const userid = req.user.id;
+   const taksdetails = await tasks.find({userId:userid,});
+    res.status(200).json({success:true,taksdetails});
+}
+
+exports.posttaskprogresscompleted = async(req,res)=>{
+    const userid = req.user.id;
+   const taksdetails = await tasks.find({status:'completed'});
+    res.status(200).json({success:true,taksdetails});
 }
