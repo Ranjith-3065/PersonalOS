@@ -51,16 +51,52 @@ exports.posttaskscreate = async(req,res)=>{
 
 // tasks of today upcoming and completed
 
+exports.gettaskstoday = (req,res)=>{
+    res.render('tasks/today',{
+        layout : 'layouts/tasks',
+        sidebar: 'tasks',
+        styles : ['/css/tasks/today.css','/css/tasks/tasks-sidebar.css'],
+        scripts:[],
+        active: 'today',
+        title:'Today tasks'
+    });
+}
+
+
 exports.posttaskprogresstoday = async(req,res)=>{
    const userid = req.user.id;
    const taksdetails = await tasks.find({userId:userid,});
     res.status(200).json({success:true,taksdetails});
 }
 
+
+exports.gettasksupcoming = (req,res)=>{
+    res.render('tasks/upcoming',{
+        layout : 'layouts/tasks',
+        sidebar: 'tasks',
+        styles : ['/css/tasks/upcoming.css','/css/tasks/tasks-sidebar.css'],
+        scripts:[],
+        active: 'upcoming',
+        title:'upcoming tasks'
+    });
+}
+
 exports.posttaskprogressupcoming = async(req,res)=>{
     const userid = req.user.id;
    const taksdetails = await tasks.find({userId:userid,});
     res.status(200).json({success:true,taksdetails});
+}
+
+
+exports.gettaskscompleted = (req,res)=>{
+    res.render('tasks/completed',{
+        layout : 'layouts/tasks',
+        sidebar: 'tasks',
+        styles : ['/css/tasks/completed.css','/css/tasks/tasks-sidebar.css'],
+        scripts:[],
+        active: 'compketed',
+        title:'Compketed tasks'
+    });
 }
 
 exports.posttaskprogresscompleted = async(req,res)=>{
