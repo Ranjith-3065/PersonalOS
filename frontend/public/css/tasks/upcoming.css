@@ -1,0 +1,99 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: #f9fafb;
+  color: #111827;
+  padding: 32px;
+  margin-left: 240px;
+}
+
+/* Header */
+.page-header {
+  margin-bottom: 30px;
+}
+
+.page-header h1 {
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.page-header p {
+  color: #3b82f6;
+  margin-top: 6px;
+}
+
+/* Grid */
+.upcoming-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* Card */
+.upcoming-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.priority {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.priority.low {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.priority.medium {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.priority.high {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.task-desc {
+  margin: 10px 0;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.task-meta {
+  font-size: 12px;
+  color: #6b7280;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Empty */
+.empty-state {
+  padding: 32px;
+  text-align: center;
+  border: 1px dashed #e5e7eb;
+  border-radius: 12px;
+  color: #6b7280;
+}
