@@ -26,7 +26,7 @@ const taskSchema = new mongoose.Schema(
     // 📊 Status tracking
     status: {
       type: String,
-      enum: ['pending', 'in-progress', 'completed'],
+      enum: ['pending', 'completed'],
       default: 'pending',
       index: true
     },
@@ -59,19 +59,6 @@ const taskSchema = new mongoose.Schema(
       default: 'personal'
     },
 
-    // 🧩 Subtasks
-    subtasks: [
-      {
-        title: {
-          type: String,
-          required: true
-        },
-        completed: {
-          type: Boolean,
-          default: false
-        }
-      }
-    ],
 
     // ⏱ Focus / productivity
     estimatedTime: {
