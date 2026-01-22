@@ -18,7 +18,7 @@ exports.gettasksdashboard = (req,res)=>{
 exports.posttasksdashboard = async(req,res)=>{
     const userid = req.user.id;
     // here i need make like fetch all the task of the user not one so i need use find and array method in the frontend remember
-    const taskdetails = await tasks.find({ userId: userid });
+    const taskdetails = await tasks.find({ userId: userid,}).sort({ status: -1 });
     total = taskdetails.length;
     // then send the json data also changes 
     res.status(200).json({success:true,
@@ -45,7 +45,7 @@ exports.posttaskscreate = async(req,res)=>{
     const {title, description,status,priority,category,dueDate,estimatedTime} = req.body;
     const taskdetails = new tasks({userId:userid,title, description,status,priority,category,dueDate,estimatedTime});
     await taskdetails.save();
-    res.status(200).json({success:true});
+    res.redirect('back');
 }
 
 
@@ -65,7 +65,11 @@ exports.gettaskstoday = (req,res)=>{
 
 exports.posttaskprogresstoday = async(req,res)=>{
    const userid = req.user.id;
-   const taksdetails = await tasks.find({userId:userid,});
+   const start = new Date();
+   start.setHours(0,0,0,0);
+   const end = new Date();
+   end.setHours(23, 59, 59, 999);
+   const taksdetails = await tasks.find({userId:userid,dueDate:{$gt:start,$lt:end}});
     res.status(200).json({success:true,taksdetails});
 }
 
@@ -83,7 +87,10 @@ exports.gettasksupcoming = (req,res)=>{
 
 exports.posttaskprogressupcoming = async(req,res)=>{
     const userid = req.user.id;
-   const taksdetails = await tasks.find({userId:userid,});
+    const end = new Date();
+    end.setHours(23, 59, 59, 999);
+   const taksdetails = await tasks.find({userId:userid,dueDate:{$gt:end},status:{$ne:'completed'}});
+   console.log(taksdetails);
     res.status(200).json({success:true,taksdetails});
 }
 
@@ -101,6 +108,17 @@ exports.gettaskscompleted = (req,res)=>{
 
 exports.posttaskprogresscompleted = async(req,res)=>{
     const userid = req.user.id;
-   const taksdetails = await tasks.find({status:'completed'});
+    const taksdetails = await tasks.find({userId:userid,status:{$eq:'completed'}});
     res.status(200).json({success:true,taksdetails});
+}
+
+exports.posttaskscompleted = async(req,res)=>{
+    const userid = req.user.id;
+    const {taskId,actualtime} = req.body;
+    const taksdetails = await tasks.findOne({userId:userid,_id:taskId});
+    taksdetails.actualTime = actualtime;
+    taksdetails.status = 'completed';
+    taksdetails.completedAt = new Date();
+    await taksdetails.save();
+    res.json({ success: true });
 }
