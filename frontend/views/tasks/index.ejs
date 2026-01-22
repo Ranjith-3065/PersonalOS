@@ -1,165 +1,212 @@
 
-  <!-- STATS -->
-  <section class="stats-grid">
-    <div class="stat-card">
-      <h4>Total Tasks</h4>
-      <p id="stat-total">0</p>
+<body>
+
+<!-- HEADER -->
+<header class="dashboard-header">
+  <h1>Task Dashboard</h1>
+  <p>Track progress, priorities, and productivity</p>
+</header>
+
+<!-- STATS -->
+<section class="stats-grid">
+  <div class="stat-card">
+    <h4>Total Tasks</h4>
+    <p id="stat-total">0</p>
+  </div>
+
+  <div class="stat-card pending">
+    <h4>Pending</h4>
+    <p id="stat-pending">0</p>
+  </div>
+
+  <div class="stat-card completed">
+    <h4>Completed</h4>
+    <p id="stat-completed">0</p>
+  </div>
+</section>
+
+<!-- TASK LIST -->
+<section class="task-section">
+  <h2>Your Tasks</h2>
+  <div id="task-list"></div>
+</section>
+
+<!-- TASK TEMPLATE -->
+<template id="task-template">
+  <div class="task-card">
+
+    <div class="task-top">
+      <h3 class="task-title"></h3>
+      <span class="status"></span>
     </div>
 
-    <div class="stat-card pending">
-      <h4>Pending</h4>
-      <p id="stat-pending">0</p>
-    </div>
+    <p class="task-desc"></p>
 
-    <div class="stat-card progress">
-      <h4>In Progress</h4>
-      <p id="stat-progress">0</p>
-    </div>
-
-    <div class="stat-card completed">
-      <h4>Completed</h4>
-      <p id="stat-completed">0</p>
-    </div>
-  </section>
-
-  <!-- TASK LIST -->
-  <section class="task-section">
-    <h2>Your Tasks</h2>
-    <div id="task-list"></div>
-  </section>
-
-  <!-- TASK TEMPLATE -->
-  <template id="task-template">
-    <div class="task-card">
-
-      <div class="task-top">
-        <h3 class="task-title"></h3>
-        <span class="status"></span>
+    <div class="meta-grid">
+      <div>
+        <label>Priority</label>
+        <span class="priority"></span>
       </div>
 
-      <p class="task-desc"></p>
-
-      <div class="meta-grid">
-        <div>
-          <label>Priority</label>
-          <span class="priority"></span>
-        </div>
-
-        <div>
-          <label>Category</label>
-          <span class="task-category"></span>
-        </div>
-
-        <div>
-          <label>Due</label>
-          <span class="task-due">—</span>
-        </div>
-
-        <div>
-          <label>Estimated</label>
-          <span class="task-estimated">0 min</span>
-        </div>
-
-        <div>
-          <label>Actual</label>
-          <span class="task-actual">0 min</span>
-        </div>
+      <div>
+        <label>Category</label>
+        <span class="task-category"></span>
       </div>
 
-      <!-- ACTIONS -->
-      <div class="task-actions">
-        <button class="complete-btn">Mark as Completed</button>
+      <div>
+        <label>Due</label>
+        <span class="task-due">—</span>
       </div>
 
-      <div class="subtasks">
-        <h4>Subtasks</h4>
-        <ul class="subtask-list"></ul>
+      <div>
+        <label>Estimated</label>
+        <span class="task-estimated">0 min</span>
       </div>
 
+      <div>
+        <label>Actual</label>
+        <span class="task-actual">0 min</span>
+      </div>
     </div>
-  </template>
 
-  <!-- SCRIPT -->
-  <script>
-    (async () => {
-      const res = await fetch('/personalOS/taskdashboardload', {
-        method: 'POST'
+    <div class="task-actions">
+      <button class="complete-btn">Mark as Completed</button>
+    </div>
+
+    <div class="subtasks">
+      <h4>Subtasks</h4>
+      <ul class="subtask-list"></ul>
+    </div>
+
+  </div>
+</template>
+
+<!-- COMPLETE MODAL -->
+<div class="modal-overlay" id="completeModal">
+  <div class="modal-card">
+    <h3>Complete Task</h3>
+    <p>How much time did you take?</p>
+
+    <input type="number" id="actualTimeInput" placeholder="Minutes" />
+
+    <div class="modal-actions">
+      <button class="cancel-btn" id="cancelModal">Cancel</button>
+      <button class="confirm-btn" id="confirmComplete">
+        Complete Task
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPT -->
+<script>
+let selectedTaskId = null;
+
+// Load dashboard
+(async () => {
+  const res = await fetch('/personalOS/taskdashboardload', {
+    method: 'POST'
+  });
+
+  const data = await res.json();
+  if (!data.success) return;
+
+  const taskList = document.getElementById('task-list');
+  const template = document.getElementById('task-template');
+
+  // STATS
+  document.getElementById('stat-total').textContent = data.taskdetails.length;
+  document.getElementById('stat-pending').textContent =
+    data.taskdetails.filter(t => t.status === 'pending').length;
+  document.getElementById('stat-completed').textContent =
+    data.taskdetails.filter(t => t.status === 'completed').length;
+
+  data.taskdetails.forEach(task => {
+    const clone = template.content.cloneNode(true);
+
+    clone.querySelector('.task-title').textContent = task.title;
+
+    const statusEl = clone.querySelector('.status');
+    statusEl.textContent = task.status;
+    statusEl.classList.add(task.status);
+
+    clone.querySelector('.task-desc').textContent = task.description || '';
+
+    const priorityEl = clone.querySelector('.priority');
+    priorityEl.textContent = task.priority;
+    priorityEl.classList.add(task.priority);
+
+    clone.querySelector('.task-category').textContent = task.category || '-';
+
+    clone.querySelector('.task-due').textContent =
+      task.dueDate ? new Date(task.dueDate).toLocaleDateString('en-IN') : '—';
+
+    clone.querySelector('.task-estimated').textContent =
+      `${task.estimatedTime || 0} min`;
+
+    clone.querySelector('.task-actual').textContent =
+      `${task.actualTime || 0} min`;
+
+    // Subtasks
+    const subtaskList = clone.querySelector('.subtask-list');
+    const subtasksContainer = clone.querySelector('.subtasks');
+
+    if (task.subtasks && task.subtasks.length) {
+      task.subtasks.forEach(sub => {
+        const li = document.createElement('li');
+        li.textContent = sub.title;
+        if (sub.completed) li.classList.add('done');
+        subtaskList.appendChild(li);
       });
+    } else {
+      subtasksContainer.remove();
+    }
 
-      const data = await res.json();
-      if (!data.success) return;
+    // Complete button
+    const completeBtn = clone.querySelector('.complete-btn');
+    completeBtn.dataset.id = task._id;
 
-      const taskList = document.getElementById('task-list');
-      const template = document.getElementById('task-template');
+    if (task.status === 'completed') {
+      completeBtn.remove();
+    }
 
-      taskList.innerHTML = '';
+    taskList.appendChild(clone);
+  });
+})();
 
-      // STATS
-      document.getElementById('stat-total').textContent = data.taskdetails.length;
-      document.getElementById('stat-pending').textContent =
-        data.taskdetails.filter(t => t.status === 'pending').length;
-      document.getElementById('stat-progress').textContent =
-        data.taskdetails.filter(t => t.status === 'in-progress').length;
-      document.getElementById('stat-completed').textContent =
-        data.taskdetails.filter(t => t.status === 'completed').length;
+// Open modal
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("complete-btn")) {
+    selectedTaskId = e.target.dataset.id;
+    document.getElementById("completeModal").style.display = "flex";
+  }
 
-      data.taskdetails.forEach(task => {
-        const clone = template.content.cloneNode(true);
+  if (e.target.id === "cancelModal") {
+    document.getElementById("completeModal").style.display = "none";
+  }
+});
 
-        clone.querySelector('.task-title').textContent = task.title;
+// Confirm completion
+document.getElementById("confirmComplete").addEventListener("click", async () => {
+  const actualTime = document.getElementById("actualTimeInput").value;
 
-        const statusEl = clone.querySelector('.status');
-        statusEl.textContent = task.status;
-        statusEl.classList.add(task.status);
+  if (!actualTime) {
+    alert("Enter time");
+    return;
+  }
 
-        clone.querySelector('.task-desc').textContent =
-          task.description || '';
+  await fetch('/personalOS/tasks/completed', {
+    method: 'POST',
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      taskId: selectedTaskId,
+      actualtime: actualTime
+    })
+  });
 
-        const priorityEl = clone.querySelector('.priority');
-        priorityEl.textContent = task.priority;
-        priorityEl.classList.add(task.priority);
-
-        clone.querySelector('.task-category').textContent =
-          task.category || '-';
-
-        clone.querySelector('.task-due').textContent =
-          task.dueDate
-            ? new Date(task.dueDate).toLocaleDateString('en-IN')
-            : '—';
-
-        clone.querySelector('.task-estimated').textContent =
-          `${task.estimatedTime || 0} min`;
-
-        clone.querySelector('.task-actual').textContent =
-          `${task.actualTime || 0} min`;
-
-        // SUBTASKS
-        const subtaskList = clone.querySelector('.subtask-list');
-        const subtasksContainer = clone.querySelector('.subtasks');
-
-        if (task.subtasks && task.subtasks.length) {
-          task.subtasks.forEach(sub => {
-            const li = document.createElement('li');
-            li.textContent = sub.title;
-            if (sub.completed) li.classList.add('done');
-            subtaskList.appendChild(li);
-          });
-        } else {
-          subtasksContainer.remove();
-        }
-
-        // COMPLETE BUTTON LOGIC (UI ONLY)
-        const completeBtn = clone.querySelector('.complete-btn');
-        completeBtn.dataset.id = task._id;
-
-        if (task.status === 'completed') {
-          completeBtn.remove();
-        }
-
-        taskList.appendChild(clone);
-      });
-    })();
-  </script>
+  location.reload();
+});
+</script>
 
 </body>
 </html>

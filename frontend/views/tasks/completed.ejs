@@ -5,29 +5,58 @@
   <p>Tasks you’ve successfully completed</p>
 </header>
 
-<section class="completed-list">
+<section class="completed-list" id="completedList">
 
   <!-- Empty state -->
-  <div class="empty-state">
+  <div class="empty-state" id="emptyState">
     <p>No completed tasks yet</p>
   </div>
 
-  <!-- COMPLETED TASK -->
-  <div class="completed-item">
-    <div class="completed-header">
-      <h3 class="task-title">Task Title</h3>
-      <span class="check">✔</span>
-    </div>
-
-    <p class="task-desc">Task description</p>
-
-    <div class="task-meta">
-      <span>Category: Work</span>
-      <span>Completed on: 19/01/2026</span>
-      <span>Actual Time: 45 min</span>
-    </div>
-  </div>
-
 </section>
+
+<script>
+(async () => {
+  const res = await fetch('/personalOS/tasks/progress/completed', {
+    method: 'POST'
+  });
+
+  const data = await res.json();
+  if (!data.success) return;
+
+  const list = document.getElementById('completedList');
+  const emptyState = document.getElementById('emptyState');
+
+  if (data.taksdetails.length > 0) {
+    emptyState.remove();
+  }
+
+  data.taksdetails.forEach(task => {
+    const item = document.createElement('div');
+    item.className = 'completed-item';
+
+    item.innerHTML = `
+      <div class="completed-header">
+        <h3 class="task-title">${task.title}</h3>
+        <span class="check">✔</span>
+      </div>
+
+      <p class="task-desc">${task.description || ''}</p>
+
+      <div class="task-meta">
+        <span>Category: ${task.category || '-'}</span>
+        <span>Completed on: ${
+          task.completedAt
+            ? new Date(task.completedAt).toLocaleDateString('en-IN')
+            : '—'
+        }</span>
+        <span>Actual Time: ${task.actualTime || 0} min</span>
+      </div>
+    `;
+
+    list.appendChild(item);
+  });
+
+})();
+</script>
 
 </body>

@@ -5,29 +5,57 @@
   <p>What you need to finish today</p>
 </header>
 
-<section class="task-list">
+<section class="task-list" id="todayList">
 
-  <!-- Empty state (JS will hide when data exists) -->
-  <div class="empty-state">
+  <!-- Empty state -->
+  <div class="empty-state" id="emptyState">
     <p>No tasks for today</p>
   </div>
 
-  <!-- TASK ITEM -->
-  <!-- JS will clone this block -->
-  <div class="task-item">
-    <div class="task-main">
-      <h3 class="task-title">Task Title</h3>
-      <span class="task-status">pending</span>
-    </div>
-
-    <p class="task-desc">Task description</p>
-
-    <div class="task-meta">
-      <span class="priority">Priority: High</span>
-      <span class="due">Due: 20/01/2026</span>
-    </div>
-  </div>
-
 </section>
+
+<script>
+(async () => {
+  const res = await fetch('/personalOS/tasks/progress/today', {
+    method: 'POST'
+  });
+
+  const data = await res.json();
+  if (!data.success) return;
+
+  const list = document.getElementById('todayList');
+  const emptyState = document.getElementById('emptyState');
+
+  if (data.taksdetails.length > 0) {
+    emptyState.remove();
+  }
+
+  data.taksdetails.forEach(task => {
+    const item = document.createElement('div');
+    item.className = 'task-item';
+
+    item.innerHTML = `
+      <div class="task-main">
+        <h3 class="task-title">${task.title}</h3>
+        <span class="task-status">${task.status}</span>
+      </div>
+
+      <p class="task-desc">${task.description || ''}</p>
+
+      <div class="task-meta">
+        <span class="priority">Priority: ${task.priority}</span>
+        <span class="due">Due: ${
+          task.dueDate
+            ? new Date(task.dueDate).toLocaleDateString('en-IN')
+            : '—'
+        }</span>
+      </div>
+    `;
+
+    list.appendChild(item);
+  });
+
+})();
+</script>
 
 </body>

@@ -5,29 +5,59 @@
   <p>Plan ahead for what's coming</p>
 </header>
 
-<section class="upcoming-grid">
+<section class="upcoming-grid" id="upcomingGrid">
 
   <!-- Empty state -->
-  <div class="empty-state">
+  <div class="empty-state" id="emptyState">
     <p>No upcoming tasks</p>
   </div>
 
-  <!-- UPCOMING CARD -->
-  <div class="upcoming-card">
-    <div class="card-top">
-      <h3 class="task-title">Task Title</h3>
-      <span class="priority high">High</span>
-    </div>
-
-    <p class="task-desc">Task description</p>
-
-    <div class="task-meta">
-      <span>Due: 25/01/2026</span>
-      <span>Estimated: 60 min</span>
-      <span>Status: pending</span>
-    </div>
-  </div>
-
 </section>
+
+<script>
+(async () => {
+  const res = await fetch('/personalOS/tasks/progress/upcoming', {
+    method: 'POST'
+  });
+
+  const data = await res.json();
+
+  if (!data.success) return;
+
+  const grid = document.getElementById('upcomingGrid');
+  const emptyState = document.getElementById('emptyState');
+
+  if (data.taksdetails.length > 0) {
+    emptyState.remove();
+  }
+
+  data.taksdetails.forEach(task => {
+    const card = document.createElement('div');
+    card.className = 'upcoming-card';
+
+    card.innerHTML = `
+      <div class="card-top">
+        <h3 class="task-title">${task.title}</h3>
+        <span class="priority ${task.priority}">${task.priority}</span>
+      </div>
+
+      <p class="task-desc">${task.description || ''}</p>
+
+      <div class="task-meta">
+        <span>Due: ${
+          task.dueDate 
+            ? new Date(task.dueDate).toLocaleDateString('en-IN')
+            : '—'
+        }</span>
+        <span>Estimated: ${task.estimatedTime || 0} min</span>
+        <span>Status: ${task.status}</span>
+      </div>
+    `;
+
+    grid.appendChild(card);
+  });
+
+})();
+</script>
 
 </body>
