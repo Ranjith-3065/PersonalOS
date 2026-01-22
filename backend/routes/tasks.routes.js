@@ -23,6 +23,7 @@ router.post('/tasks/progress/upcoming',taskscontroller.posttaskprogressupcoming)
 
 //
 router.get('/tasks/completed',taskscontroller.gettaskscompleted);
+router.post('/tasks/completed',taskscontroller.posttaskscompleted);
 router.post('/tasks/progress/completed',taskscontroller.posttaskprogresscompleted);
 
 
