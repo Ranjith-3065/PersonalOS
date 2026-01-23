@@ -21,8 +21,8 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      minlength: 6,
-      select: false, // very important for security
+      minlength: 8,
+      select: false,
     },
 
     role: {
@@ -41,27 +41,23 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
 
-    lastLogin: {
-      type: Date,
-    },
+    lastLogin: Date,
 
     name: {
       type: String,
       trim: true,
     },
 
-    avatar: {
-      type: String,
-    },
-    otp:{
-      type:String,
-    },
-    tokenforreset:{
-      type:String,
-    },
+    avatar: String,
+
+    otp: String,
+    otpExpiry: Date,
+
+    tokenforreset: String,
+    tokenExpiry: Date,
   },
   {
-    timestamps: true, // creates createdAt & updatedAt automatically
+    timestamps: true,
   }
 );
 
