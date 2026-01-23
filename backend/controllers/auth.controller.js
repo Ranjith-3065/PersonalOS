@@ -88,18 +88,25 @@ res.render('auth/forgotPassword',{
 });
 }
 exports.postresetpass = async(req,res)=>{
-    console.log('i came here');
     const {email} = req.body;
-    const token = crypto.randomBytes(32).toString('hex');
     const usertoken = await user.findOne({email});
+
+    if(!usertoken){
+        return res.status(200).json({success:true});
+    }
+
+    const token = crypto.randomBytes(32).toString('hex');
+
     usertoken.tokenforreset = token;
+    usertoken.tokenExpiry = Date.now() + 15 * 60 * 1000;
     await usertoken.save();
 
     const link = `http://localhost:3000/personalOS/passwordreset/${token}`;
     await sendmaillink(email,link);
-    return res.status(200).json({success:true,token});
 
+    return res.status(200).json({success:true});
 }
+
 exports.getresetpass = (req,res)=>{
     res.render('auth/passwordreset',{
         layout:'layouts/auth',
@@ -112,16 +119,24 @@ exports.getresetpass = (req,res)=>{
 exports.postresetpassword = async(req,res)=>{
     const {password} = req.body;
     const {token} = req.params;
-    const haspassword =await bcrypt.hash(password,10);
-    const userdetails = await user.findOne({tokenforreset:token}).select("+password");
-    
-console.log("PASSWORD IN DB:", userdetails.password);
-        console.log(haspassword);
-        userdetails.password = haspassword;
-        console.log(userdetails.password);
-        await userdetails.save();
-         console.log(userdetails.password);
-          console.log(userdetails);
-        res.status(200).json({success:true});
 
+    const userdetails = await user.findOne({
+        tokenforreset: token,
+        tokenExpiry: { $gt: Date.now() }
+    });
+
+    if(!userdetails){
+        return res.status(400).json({success:false, message:"Invalid or expired link"});
+    }
+
+    const haspassword = await bcrypt.hash(password,10);
+    userdetails.password = haspassword;
+
+    // destroy token after use
+    userdetails.tokenforreset = undefined;
+    userdetails.tokenExpiry = undefined;
+
+    await userdetails.save();
+    res.status(200).json({success:true});
 }
+
