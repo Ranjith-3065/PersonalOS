@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const crypto = require('crypto');
-
+// why i imported this here ? any use check it tomorrow
 const { authtoken } = require('../middleware/auth.middleware');
 dotenv.config();
 // signup
