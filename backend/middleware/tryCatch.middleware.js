@@ -22,3 +22,5 @@ console.log(value);
 console.log(typeof value);
 console.log(handler);
 console.log(typeof handler);
+// next i need to try with arguments and also i need to do trycatch with actual handler
+// still learning 
