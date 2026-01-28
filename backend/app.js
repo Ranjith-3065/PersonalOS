@@ -2,8 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const cookieparser = require('cookie-parser');
 const expressLayouts = require('express-ejs-layouts');
+const mongoSanitize = require('express-mongo-sanitize');
 const app = express();
 app.use(express.json());
+app.use(mongoSanitize({ replaceWith: '_' }));
 app.use(cookieparser());
 app.use(cors());
 app.use(express.urlencoded({extended:true}));
@@ -20,6 +22,7 @@ const authrouter = require('./routes/auth.routes');
 const authmiddleware = require('./middleware/auth.middleware')
 const seetingrouter = require('./routes/settings.routes');
 const tasksrouter = require('./routes/tasks.routes');
+const errorHandler = require('./middleware/error.middleware');
 app.use('/personalOS/dashboard',authmiddleware.authtokendashboard,(req,res)=>{
     console.log("requested:",req.user);
     res.render('dashboard/index',{
@@ -33,4 +36,5 @@ app.use('/personalOS/dashboard',authmiddleware.authtokendashboard,(req,res)=>{
 app.use('/personalOS',authrouter);
 app.use('/personalOS',authmiddleware.authtoken,seetingrouter);
 app.use('/personalOS',authmiddleware.authtoken,tasksrouter);
+app.use(errorHandler);
 module.exports = app;

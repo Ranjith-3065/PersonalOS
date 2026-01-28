@@ -1,15 +1,18 @@
-
 const user = require('../models/User.model');
-const {sendmaillink} = require('../services/settings.service');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const crypto = require('crypto');
-// why i imported this here ? any use check it tomorrow
-const { authtoken } = require('../middleware/auth.middleware');
+const sanitize = require('express-mongo-sanitize');
+
+const userValidationSchema = require('../config/zod');
+const {sendmaillink} = require('../services/settings.service');
+const TryCatch = require('../middleware/tryCatch.middleware');
+const AppError = require('../utils/apperror');
+
 dotenv.config();
 // signup
-exports.getsignup = (req,res)=>{
+exports.getsignup = TryCatch((req,res)=>{
     console.log("url",req.url);
     res.render('auth/signup',{
         layout:'layouts/auth',
@@ -18,14 +21,15 @@ exports.getsignup = (req,res)=>{
     });
     
     
-}
-exports.postsignup = async (req,res)=>{
+})
+exports.postsignup = TryCatch(async (req,res)=>{
     console.log('url of post',req.url);
+    
+    const { name, email, password } = userValidationSchema.parse(req.body);
 
-    const {name,email,password} = req.body;
     const existuser = await user.findOne({email});
-    if(existuser){
-        return res.status(400).json({success:false,message:"these email already exists"});
+    if (existuser) {
+        throw new AppError("Email already exists", 400);
     }
     else{
         const haspassword = await bcrypt.hash(password,10);
@@ -34,19 +38,20 @@ exports.postsignup = async (req,res)=>{
         console.log("registered");
         return res.status(200).json({success:true, message: "You registered" });
     }
-}
+})
 
 //login
-exports.getlogin = (req,res)=>{
+exports.getlogin = TryCatch((req,res)=>{
     console.log("url",req.url);
     res.render('auth/login',{
         layout:'layouts/auth',
         title:'login',
         subtitle:'login'
     });
-}
-exports.postlogin = async (req,res)=>{
-    const {email,password} = req.body;
+})
+exports.postlogin = TryCatch(async (req,res)=>{
+
+   const { email, password } = userValidationSchema.parse(req.body);
     const userexist = await user.findOne({email}).select("+password");
     console.log(userexist);
     if(userexist){
@@ -70,24 +75,24 @@ exports.postlogin = async (req,res)=>{
         }
 
         else{
-            return res.status(400).json({success : false , message:"Incorrect email or password"});
+            throw new AppError("Incorrect email or password", 400);
         }
     }
     else{
-        return res.status(400).json({success : false, message:"Incorrect email or password"});
+        throw new AppError("Incorrect email or password", 400);
     }
     
-}
+})
 //forgotpass
-exports.getforgotpass = (req,res)=>{
+exports.getforgotpass = TryCatch((req,res)=>{
     console.log('url',req.url);
 res.render('auth/forgotPassword',{
     layout:'layouts/auth',
         title:'frogotpassword',
         subtitle:'forgotpassword'
 });
-}
-exports.postresetpass = async(req,res)=>{
+})
+exports.postresetpass = TryCatch(async(req,res)=>{
     const {email} = req.body;
     const usertoken = await user.findOne({email});
 
@@ -105,18 +110,18 @@ exports.postresetpass = async(req,res)=>{
     await sendmaillink(email,link);
 
     return res.status(200).json({success:true});
-}
+})
 
-exports.getresetpass = (req,res)=>{
+exports.getresetpass = TryCatch( (req,res)=>{
     res.render('auth/passwordreset',{
         layout:'layouts/auth',
         title:'passwordreset',
         subtitle:'passwordreset'
     });
-}
+})
 
 
-exports.postresetpassword = async(req,res)=>{
+exports.postresetpassword = TryCatch( async(req,res)=>{
     const {password} = req.body;
     const {token} = req.params;
 
@@ -126,7 +131,7 @@ exports.postresetpassword = async(req,res)=>{
     });
 
     if(!userdetails){
-        return res.status(400).json({success:false, message:"Invalid or expired link"});
+        throw new AppError("Invalid or expired link", 400);
     }
 
     const haspassword = await bcrypt.hash(password,10);
@@ -138,5 +143,5 @@ exports.postresetpassword = async(req,res)=>{
 
     await userdetails.save();
     res.status(200).json({success:true});
-}
+})
 

@@ -1,39 +1,16 @@
 const app = require('./app');
 const dotenv = require('dotenv');
-const mongoose = require('mongoose');
+const mongodbconnection = require('./config/db');
 dotenv.config();
 
 const port = process.env.PORT || 3000;
-const mongodb = process.env.MONGO;
 
-//! this is then and catch 
+const startServer = async () => {
+    await mongodbconnection();
 
-// mongoose.connect(mongodb)
-//     .then(()=>{
-        
-//     console.log("mongodb connected");
-//     app.listen(port,()=>{
-//     console.log(`http://localhost:${port}`);
-// });
-// })
-// .catch((err)=>{
-//     console.log(err);
-// })
+    app.listen(port, () => {
+        console.log(`Server running at http://localhost:${port}`);
+    });
+};
 
-//! this is async and await 
-
-async function mongodbconncetion() {
-    try{
-        await mongoose.connect(mongodb);
-        console.log("mongodb connected");
-          app.listen(port,()=>{
-          console.log(`http://localhost:${port}`);
-          });
-
-    }
-    catch(err){
-        console.log(err);
-    }
-}
-
-mongodbconncetion();
+startServer();
