@@ -3,12 +3,13 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const crypto = require('crypto');
-const sanitize = require('express-mongo-sanitize');
 
-const userValidationSchema = require('../config/zod');
+
+const { signupSchema, loginSchema, resetpassSchema, resetpasswordSchema }  = require('../config/zod');
 const {sendmaillink} = require('../services/settings.service');
 const TryCatch = require('../middleware/tryCatch.middleware');
 const AppError = require('../utils/apperror');
+const redis = require("../config/redis");
 
 dotenv.config();
 // signup
@@ -25,7 +26,7 @@ exports.getsignup = TryCatch((req,res)=>{
 exports.postsignup = TryCatch(async (req,res)=>{
     console.log('url of post',req.url);
     
-    const { name, email, password } = userValidationSchema.parse(req.body);
+    const { name, email, password } = signupSchema.parse(req.body);
 
     const existuser = await user.findOne({email});
     if (existuser) {
@@ -51,7 +52,7 @@ exports.getlogin = TryCatch((req,res)=>{
 })
 exports.postlogin = TryCatch(async (req,res)=>{
 
-   const { email, password } = userValidationSchema.parse(req.body);
+   const { email, password } = loginSchema.parse(req.body);
     const userexist = await user.findOne({email}).select("+password");
     console.log(userexist);
     if(userexist){
@@ -62,13 +63,33 @@ exports.postlogin = TryCatch(async (req,res)=>{
 
         const token = jwt.sign(
         {id:userexist._id,role:userexist.role}, process.env.JWT,
-        { expiresIn: "7d" }
+        { expiresIn: "15m" }
         );
-        res.cookie("token", token, {
+
+        const refreshToken = crypto.randomBytes(40).toString("hex");
+
+        const hashedRefresh = crypto
+        .createHash("sha256")
+        .update(refreshToken)
+        .digest("hex");
+
+        await redis.set(
+        `refresh:${hashedRefresh}`,
+        userexist._id.toString(),
+        { EX: 60 * 60 * 24 * 30 } 
+        );
+
+        res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        sameSite: "strict",
+        maxAge: 30 * 24 * 60 * 60 * 1000
+        });
+
+        res.cookie("accessToken", token, {
         httpOnly: true,       
         secure: false,         
         sameSite: "strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000
+        maxAge: 15 * 60 * 1000
         });
             return res.status(200).json({success:true,message:"You logged in"});
 
@@ -93,7 +114,7 @@ res.render('auth/forgotPassword',{
 });
 })
 exports.postresetpass = TryCatch(async(req,res)=>{
-    const {email} = req.body;
+    const {email} = resetpassSchema.parse(req.body);
     const usertoken = await user.findOne({email});
 
     if(!usertoken){
@@ -122,7 +143,7 @@ exports.getresetpass = TryCatch( (req,res)=>{
 
 
 exports.postresetpassword = TryCatch( async(req,res)=>{
-    const {password} = req.body;
+    const {password} = resetpasswordSchema.parse(req.body);
     const {token} = req.params;
 
     const userdetails = await user.findOne({
@@ -145,3 +166,37 @@ exports.postresetpassword = TryCatch( async(req,res)=>{
     res.status(200).json({success:true});
 })
 
+exports.refreshToken = TryCatch(async (req, res) => {
+  const token = req.cookies.refreshToken;
+  if (!token) {
+    throw new AppError("No refresh token", 401);
+  }
+
+  // hash the token
+  const hashed = crypto
+    .createHash("sha256")
+    .update(token)
+    .digest("hex");
+
+  // check Redis
+  const userId = await redis.get(`refresh:${hashed}`);
+  if (!userId) {
+    throw new AppError("Session expired. Please login again.", 401);
+  }
+
+  // issue new access token
+  const newAccessToken = jwt.sign(
+    { id: userId },
+    process.env.JWT,
+    { expiresIn: "15m" }
+  );
+
+  res.cookie("accessToken", newAccessToken, {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: false,
+    maxAge: 15 * 60 * 1000
+  });
+
+  res.status(200).json({ success: true });
+});

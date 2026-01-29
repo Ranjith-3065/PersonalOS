@@ -1,122 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title><%= title || "PersonalOS" %></title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title><%= title || "PersonalOS" %></title>
 
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --bg: #020617;
-      --card: #0f172a;
-      --border: rgba(255,255,255,0.08);
-      --text: #e5e7eb;
-      --muted: #94a3b8;
-      --primary: #6366f1;
-      --primary-hover: #4f46e5;
-      --danger: #ef4444;
-      --radius: 16px;
-    }
+<style>
+:root {
+  --black: #0b0b0b;
+  --soft-black: #1a1a1a;
+  --white: #ffffff;
+  --off-white: #f7f7f8;
+  --border: #e5e7eb;
+  --text: #111827;
+  --muted: #6b7280;
+  --primary: #111827;
+  --danger: #dc2626;
+  --radius: 18px;
+}
 
-    * {
-      box-sizing: border-box;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
+* {
+  box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: radial-gradient(circle at top, #1e293b, #020617);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text);
-    }
+/* Whole page is light */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--off-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    .auth-wrapper {
-      width: 100%;
-      max-width: 420px;
-      padding: 24px;
-    }
+/* App frame */
+.auth-wrapper {
+  width: 100%;
+  max-width: 1000px;
+  height: 600px;
+  background: white;
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  box-shadow: 0 40px 120px rgba(0,0,0,0.15);
+}
 
-    .auth-card {
-      background: linear-gradient(180deg, #0f172a, #020617);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 32px;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.6);
-      animation: fadeUp 0.6s ease;
-    }
+/* Left black panel */
+.auth-left {
+  background: linear-gradient(180deg, #111, #000);
+  color: white;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+.auth-left h1 {
+  font-size: 36px;
+  font-weight: 700;
+}
 
-    .brand {
-      text-align: center;
-      margin-bottom: 24px;
-    }
+.auth-left p {
+  margin-top: 14px;
+  font-size: 15px;
+  color: #9ca3af;
+}
 
-    .brand h1 {
-      font-size: 26px;
-      font-weight: 700;
-      margin: 0;
-      letter-spacing: 0.5px;
-    }
+/* Right side */
+.auth-card {
+  padding: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
-    .brand p {
-      margin-top: 6px;
-      font-size: 14px;
-      color: var(--muted);
-    }
+/* Brand */
+.brand h1 {
+  font-size: 28px;
+  font-weight: 700;
+}
 
-    .auth-content {
-      margin-top: 24px;
-    }
+.brand p {
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 28px;
+}
 
-    .footer-text {
-      margin-top: 22px;
-      font-size: 13px;
-      text-align: center;
-      color: var(--muted);
-    }
+/* Fields */
+.field {
+  margin-bottom: 18px;
+}
 
-    .footer-text a {
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: 500;
-    }
+.field label {
+  font-size: 13px;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 6px;
+}
 
-    .footer-text a:hover {
-      text-decoration: underline;
-    }
-  </style>
+.field input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: white;
+  outline: none;
+  font-size: 14px;
+}
+
+.field input:focus {
+  border-color: var(--primary);
+}
+
+/* Button */
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Footer */
+.footer-text {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.footer-text a {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+
+/* Error text */
+.error {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #dc2626; /* soft red */
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+/* Input error state */
+.input-error {
+  border-color: #dc2626 !important;
+  background: #fffafa;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.08);
+}
+
+/* Subtle shake animation */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+
+.input-error {
+  animation: shake 0.3s ease;
+}
+
+</style>
 </head>
 
 <body>
-  <div class="auth-wrapper">
-    <div class="auth-card">
-      <div class="brand">
-        <h1>PersonalOS</h1>
-        <p><%= subtitle || "Secure your digital workspace" %></p>
-      </div>
 
-      <!-- Page specific content -->
-      <div class="auth-content">
-        <%- body %>
-      </div>
-    </div>
+<div class="auth-wrapper">
+
+  <!-- Left branding panel -->
+  <div class="auth-left">
+    <h1>PersonalOS</h1>
+    <p>
+      Your digital operating system.  
+      Manage your tasks, projects, and life in one place.
+    </p>
   </div>
+
+  <!-- Right form panel -->
+  <div class="auth-card">
+
+    <div class="brand">
+      <h1><%= title || "Welcome" %></h1>
+      <p><%= subtitle || "Sign in to continue" %></p>
+    </div>
+
+    <%- body %>
+
+  </div>
+
+</div>
+<script src="../../public/js/main.js"></script>
+
 </body>
 </html>
-

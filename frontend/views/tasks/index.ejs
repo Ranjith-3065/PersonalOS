@@ -195,7 +195,7 @@ document.getElementById("confirmComplete").addEventListener("click", async () =>
     return;
   }
 
-  await fetch('/personalOS/tasks/completed', {
+  await apiFetch('/personalOS/tasks/completed', {
     method: 'POST',
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
