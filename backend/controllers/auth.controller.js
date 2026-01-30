@@ -9,7 +9,7 @@ const { signupSchema, loginSchema, resetpassSchema, resetpasswordSchema }  = req
 const {sendmaillink} = require('../services/settings.service');
 const TryCatch = require('../middleware/tryCatch.middleware');
 const AppError = require('../utils/apperror');
-const redis = require("../config/redis");
+
 
 dotenv.config();
 // signup
@@ -56,8 +56,6 @@ exports.postlogin = TryCatch(async (req,res)=>{
     const userexist = await user.findOne({email}).select("+password");
     console.log(userexist);
     if(userexist){
-        console.log('pass1',userexist.password);
-        console.log('pass2',password);
         const ismatch = await bcrypt.compare(password , userexist.password);
         if(ismatch){
 
@@ -66,26 +64,8 @@ exports.postlogin = TryCatch(async (req,res)=>{
         { expiresIn: "15m" }
         );
 
-        const refreshToken = crypto.randomBytes(40).toString("hex");
 
-        const hashedRefresh = crypto
-        .createHash("sha256")
-        .update(refreshToken)
-        .digest("hex");
-
-        await redis.set(
-        `refresh:${hashedRefresh}`,
-        userexist._id.toString(),
-        { EX: 60 * 60 * 24 * 30 } 
-        );
-
-        res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        sameSite: "strict",
-        maxAge: 30 * 24 * 60 * 60 * 1000
-        });
-
-        res.cookie("accessToken", token, {
+        res.cookie("token", token, {
         httpOnly: true,       
         secure: false,         
         sameSite: "strict",
@@ -166,37 +146,4 @@ exports.postresetpassword = TryCatch( async(req,res)=>{
     res.status(200).json({success:true});
 })
 
-exports.refreshToken = TryCatch(async (req, res) => {
-  const token = req.cookies.refreshToken;
-  if (!token) {
-    throw new AppError("No refresh token", 401);
-  }
 
-  // hash the token
-  const hashed = crypto
-    .createHash("sha256")
-    .update(token)
-    .digest("hex");
-
-  // check Redis
-  const userId = await redis.get(`refresh:${hashed}`);
-  if (!userId) {
-    throw new AppError("Session expired. Please login again.", 401);
-  }
-
-  // issue new access token
-  const newAccessToken = jwt.sign(
-    { id: userId },
-    process.env.JWT,
-    { expiresIn: "15m" }
-  );
-
-  res.cookie("accessToken", newAccessToken, {
-    httpOnly: true,
-    sameSite: "strict",
-    secure: false,
-    maxAge: 15 * 60 * 1000
-  });
-
-  res.status(200).json({ success: true });
-});

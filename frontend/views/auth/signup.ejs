@@ -38,7 +38,7 @@ signupBtn.addEventListener("click", async () => {
   const email = document.querySelector('input[name="email"]').value;
   const password = document.querySelector('input[name="password"]').value;
 
-  const res = await apiFetch("/personalOS/signup", {
+  const res = await fetch("/personalOS/signup", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name, email, password })

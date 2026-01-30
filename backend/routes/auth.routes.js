@@ -9,8 +9,6 @@ router.post('/signup',authcontroller.postsignup);
 router.get('/login',authcontroller.getlogin);
 router.post('/login',authcontroller.postlogin);
 
-//refreshtoken
-router.post('/auth/refresh',authcontroller.refreshToken);
 
 //forgotpass
 router.get('/forgotpass',authcontroller.getforgotpass);
