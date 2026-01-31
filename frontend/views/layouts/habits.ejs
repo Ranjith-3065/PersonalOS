@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title><%= title || "PersonalOS – Habits" %></title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Global Styles -->
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/sidebar.css">
+
+  <!-- Habits Base Styles -->
+  <link rel="stylesheet" href="/css/habits.base.css">
+
+  <!-- Page Specific Styles -->
+  <% if (styles) { %>
+    <% styles.forEach(style => { %>
+      <link rel="stylesheet" href="<%= style %>">
+    <% }) %>
+  <% } %>
+</head>
+
+<body>
+
+  <!-- MAIN OS LAYOUT -->
+  <div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <%- include('../partials/sidebar', { sidebar: 'habits', active, user }) %>
+    </aside>
+
+    <!-- HABITS MAIN PANEL -->
+    <main class="habits-main">
+      <%- body %>
+    </main>
+
+  </div>
+
+  <!-- Global JS -->
+  <script src="/js/main.js"></script>
+
+  <!-- Habits Core JS -->
+  <script src="/js/habits.core.js"></script>
+
+  <!-- Page Specific Scripts -->
+  <% if (scripts) { %>
+    <% scripts.forEach(script => { %>
+      <script src="<%= script %>" defer></script>
+    <% }) %>
+  <% } %>
+
+</body>
+</html>
