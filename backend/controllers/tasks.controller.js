@@ -9,7 +9,7 @@ exports.gettasksdashboard = (req,res)=>{
         layout : 'layouts/tasks',
         sidebar: 'tasks',
         styles : ['/css/tasks/index.css','/css/tasks/tasks-sidebar.css'],
-        scripts:['/js/tasks/index.js'],
+        scripts:['/js/tasks/index.js','js/settings/main.js'],
         active: 'dashboard',
         title:'tasks dashboard'
     });
@@ -33,7 +33,7 @@ res.render('tasks/create',{
         layout : 'layouts/tasks',
         sidebar: 'tasks',
         styles : ['/css/tasks/create.css','/css/settings/settings-sidebar.css'],
-        scripts:['/js/tasks/index.js'],
+        scripts:['/js/tasks/index.js','js/settings/main.js'],
         active: 'tasks',
         title:'tasks'
     });
@@ -56,7 +56,7 @@ exports.gettaskstoday = (req,res)=>{
         layout : 'layouts/tasks',
         sidebar: 'tasks',
         styles : ['/css/tasks/today.css','/css/tasks/tasks-sidebar.css'],
-        scripts:[],
+        scripts:['js/settings/main.js'],
         active: 'today',
         title:'Today tasks'
     });
@@ -79,7 +79,7 @@ exports.gettasksupcoming = (req,res)=>{
         layout : 'layouts/tasks',
         sidebar: 'tasks',
         styles : ['/css/tasks/upcoming.css','/css/tasks/tasks-sidebar.css'],
-        scripts:[],
+        scripts:['js/settings/main.js'],
         active: 'upcoming',
         title:'upcoming tasks'
     });
@@ -100,7 +100,7 @@ exports.gettaskscompleted = (req,res)=>{
         layout : 'layouts/tasks',
         sidebar: 'tasks',
         styles : ['/css/tasks/completed.css','/css/tasks/tasks-sidebar.css'],
-        scripts:[],
+        scripts:['js/settings/main.js'],
         active: 'compketed',
         title:'Compketed tasks'
     });

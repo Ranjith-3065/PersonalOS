@@ -5,7 +5,7 @@ exports.getprofile = (req,res)=>{
     res.render('settings/profile',{
         user:req.user,
         title:'profile',
-        scripts:['/js/settings/profile.js'],
+        scripts:['/js/settings/profile.js','js/settings/main.js'],
         styles:['/css/settings/profile.css','/css/settings/settings-sidebar.css'],
         layout: 'layouts/settings',
         sidebar: 'settings',
@@ -18,7 +18,7 @@ exports.getaccount = (req,res)=>{
     res.render('settings/account',{
         user:req.user,
         title:'account',
-        scripts:['/js/settings/account.js'],
+        scripts:['/js/settings/account.js','js/settings/main.js'],
         styles:['/css/settings/account.css','/css/settings/settings-sidebar.css'],
         layout: 'layouts/settings',
         sidebar: 'settings',
@@ -30,7 +30,7 @@ exports.getpreferences = (req,res)=>{
     res.render('settings/preferences',{
         user:req.user,
         title:'preferences',
-        scripts:['/js/settings/prefernce.js'],
+        scripts:['/js/settings/prefernce.js','js/settings/main.js'],
         styles:['/css/settings/preference.css','/css/settings/settings-sidebar.css'],
         layout: 'layouts/settings',
         sidebar: 'settings',

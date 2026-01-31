@@ -1,4 +1,40 @@
-<header class="animate-in">
-  <h1 id="greet">Good Afternoon</h1>
-  <p>System modules are online and synchronized.</p>
+<header class="top-nav animate-in">
+
+  <!-- LEFT : LOCATION -->
+  <div class="nav-left">
+    <h1 id="greet">Welcome</h1>
+    <span class="nav-location">
+      Dashboard • Overview
+    </span>
+  </div>
+
+  <!-- CENTER : SYSTEM -->
+  <div class="nav-center">
+    <span id="todayDate"></span>
+    <span class="system-dot"></span>
+    <span class="system-text">All systems online</span>
+  </div>
+
+  <!-- RIGHT : USER -->
+  <div class="nav-right">
+
+    <!-- Quick Action -->
+    <a href="/personalOS/tasks/create" class="quick-btn">
+      + New Task
+    </a>
+
+    <!-- If user is logged in -->
+    <div class="profile-pill" id="userArea">
+      <img src="/images/avatar-placeholder.png" id="profileImg">
+      <span id="navName">User</span>
+    </div>
+
+    <!-- If not logged in -->
+    <div class="auth-links" id="authLinks" style="display:none;">
+      <a href="/personalOS/login">Login</a>
+      <a href="/personalOS/signup" class="primary">Sign Up</a>
+    </div>
+
+  </div>
+
 </header>

@@ -19,10 +19,12 @@ app.set('views', path.join(__dirname, '../frontend/views'));
 app.use(express.static(path.join(__dirname, '../frontend/public')));
 
 const authrouter = require('./routes/auth.routes');
-const authmiddleware = require('./middleware/auth.middleware')
+const authmiddleware = require('./middleware/auth.middleware');
+const dashboardRoutes = require('./routes/dashboard.routes');
 const seetingrouter = require('./routes/settings.routes');
 const tasksrouter = require('./routes/tasks.routes');
 const errorHandler = require('./middleware/error.middleware');
+app.use('/personalOS/dashboard', dashboardRoutes);
 app.use('/personalOS/dashboard',authmiddleware.authtokendashboard,(req,res)=>{
     console.log("requested:",req.user);
     res.render('dashboard/index',{
@@ -34,6 +36,7 @@ app.use('/personalOS/dashboard',authmiddleware.authtokendashboard,(req,res)=>{
     });
 })
 app.use('/personalOS',authrouter);
+
 app.use('/personalOS',authmiddleware.authtoken,seetingrouter);
 app.use('/personalOS',authmiddleware.authtoken,tasksrouter);
 app.use(errorHandler);

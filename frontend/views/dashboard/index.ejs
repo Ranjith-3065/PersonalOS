@@ -1,17 +1,48 @@
 <div class="bento-grid">
 
-  <div class="bento-card card-span-2 animate-in">
+  <!-- AI -->
+  <div class="bento-card card-span-2 animate-in ai">
     <div class="card-label">Neural Intelligence</div>
-    <div class="big-text">
-      "Welcome to your Workspace. I've prepared your priority list for the afternoon."
+    <div class="big-text" id="aiMessage">
+      "Welcome to your Workspace. I've prepared your priority list for today."
     </div>
     <div class="footer-note">Press ⌘ + K to command</div>
   </div>
 
-  <div class="bento-card">
+  <!-- Productivity -->
+  <div class="bento-card animate-in delay-1 productivity">
+    <div class="card-label">Productivity</div>
+    <div class="data-hero" id="productivity">0%</div>
+    <p class="status-text" id="statusMessage"></p>
+    <div class="footer-note">Today’s efficiency</div>
+  </div>
+
+  <!-- Total Tasks -->
+  <div class="bento-card animate-in delay-2 tasks">
+    <div class="card-label">Tasks</div>
+    <div class="data-hero" id="totalTasks">0</div>
+    <div class="footer-note">Total active tasks</div>
+  </div>
+
+  <!-- Completed -->
+  <div class="bento-card animate-in delay-3 completed">
+    <div class="card-label">Completed</div>
+    <div class="data-hero" id="completedToday">0</div>
+    <div class="footer-note">Finished today</div>
+  </div>
+
+  <!-- Overdue -->
+  <div class="bento-card animate-in delay-4 overdue">
+    <div class="card-label">Overdue</div>
+    <div class="data-hero" id="overdueTasks">0</div>
+    <div class="footer-note">Tasks you missed</div>
+  </div>
+
+  <!-- Habits -->
+  <div class="bento-card animate-in delay-4 growth">
     <div class="card-label">Growth</div>
-    <div class="data-hero" style="color:#6366f1;">0</div>
-    <div class="footer-note">Active Habit Streaks</div>
+    <div class="data-hero" id="habitStreaks">0</div>
+    <div class="footer-note">Active habit streaks</div>
   </div>
 
 </div>

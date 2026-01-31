@@ -156,6 +156,78 @@
 
 <% } %>
 
+<!-- ================= HABITS SIDEBAR ================= -->
+<% if (sidebar === 'habits') { %>
+
+  <!-- BACK -->
+  <a href="/personalOS/dashboard" class="back-nav">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"></line>
+      <polyline points="12 19 5 12 12 5"></polyline>
+    </svg>
+    Back to Main Dashboard
+  </a>
+
+  <nav class="sidebar-nav">
+
+    <!-- DASHBOARD -->
+    <a href="/personalOS/habits/dashboard"
+       class="nav-item <%= active === 'dashboard' ? 'active' : '' %>">
+      🔥 Habit Dashboard
+      <span class="nav-sub">Streaks & consistency</span>
+    </a>
+
+    <!-- VIEW -->
+    <div class="nav-group">
+      <div class="nav-label">View</div>
+
+      <a href="/personalOS/habits"
+         class="nav-item <%= active === 'all' ? 'active' : '' %>">
+        📋 All Habits
+      </a>
+
+      <a href="/personalOS/habits/today"
+         class="nav-item <%= active === 'today' ? 'active' : '' %>">
+        📅 Today
+      </a>
+
+      <a href="/personalOS/habits/streaks"
+         class="nav-item <%= active === 'streaks' ? 'active' : '' %>">
+        🔥 Streaks
+      </a>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="nav-group">
+      <div class="nav-label">Actions</div>
+
+      <a href="/personalOS/habits/create"
+         class="nav-item primary">
+        ➕ Create Habit
+      </a>
+
+      <a href="/personalOS/habits/edit"
+         class="nav-item">
+        ✏️ Edit Habits
+      </a>
+    </div>
+
+    <!-- INSIGHTS -->
+    <div class="nav-group">
+      <div class="nav-label">Insights</div>
+
+      <a href="/personalOS/habits/analytics"
+         class="nav-item <%= active === 'analytics' ? 'active' : '' %>">
+        📈 Analytics
+      </a>
+
+    </div>
+
+  </nav>
+
+<% } %>
 
 
 </aside>

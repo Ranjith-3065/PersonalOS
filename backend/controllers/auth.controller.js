@@ -61,7 +61,7 @@ exports.postlogin = TryCatch(async (req,res)=>{
 
         const token = jwt.sign(
         {id:userexist._id,role:userexist.role}, process.env.JWT,
-        { expiresIn: "15m" }
+        { expiresIn: "7d" }
         );
 
 
@@ -69,7 +69,7 @@ exports.postlogin = TryCatch(async (req,res)=>{
         httpOnly: true,       
         secure: false,         
         sameSite: "strict",
-        maxAge: 15 * 60 * 1000
+        maxAge: 7 * 24 * 60 * 60 * 1000
         });
             return res.status(200).json({success:true,message:"You logged in"});
 
