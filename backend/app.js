@@ -23,6 +23,7 @@ const authmiddleware = require('./middleware/auth.middleware');
 const dashboardRoutes = require('./routes/dashboard.routes');
 const seetingrouter = require('./routes/settings.routes');
 const tasksrouter = require('./routes/tasks.routes');
+const habitRouter = require('./routes/habits.routes');
 const errorHandler = require('./middleware/error.middleware');
 app.use('/personalOS/dashboard', dashboardRoutes);
 app.use('/personalOS/dashboard',authmiddleware.authtokendashboard,(req,res)=>{
@@ -39,5 +40,6 @@ app.use('/personalOS',authrouter);
 
 app.use('/personalOS',authmiddleware.authtoken,seetingrouter);
 app.use('/personalOS',authmiddleware.authtoken,tasksrouter);
+app.use('/personalOS',authmiddleware.authtoken,habitRouter);
 app.use(errorHandler);
 module.exports = app;
