@@ -1,0 +1,122 @@
+/* =============================
+   HABITS MAIN OFFSET
+   (to avoid sidebar overlap)
+============================= */
+
+.habits-main {
+  margin-left: 320px;   /* width of your sidebar */
+  padding: 32px 40px;
+  min-height: 100vh;
+  background: var(--app-bg);
+}
+
+
+/* =============================
+   HABITS PAGE HEADER
+============================= */
+
+.habits-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.habits-page-header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.habits-page-header p {
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* =============================
+   STATS GRID
+============================= */
+
+.habits-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.habits-stats .stat-card {
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.habits-stats .stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.habits-stats h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.habits-stats p {
+  margin-top: 8px;
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+/* 🔥 streak card highlight */
+.habits-stats .stat-card.streak {
+  background: linear-gradient(135deg, var(--accent), #ff8a00);
+  color: white;
+}
+
+.habits-stats .stat-card.streak h4 {
+  color: rgba(255,255,255,0.8);
+}
+
+.habits-stats .stat-card.streak p {
+  color: white;
+}
+
+/* =============================
+   SECTIONS
+============================= */
+
+.habits-section {
+  margin-bottom: 40px;
+}
+
+.habits-section h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* =============================
+   HABITS GRID (Today)
+============================= */
+
+.habits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+/* =============================
+   HABITS LIST (All)
+============================= */
+
+.habits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}

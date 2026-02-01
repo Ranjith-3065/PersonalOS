@@ -1,0 +1,121 @@
+/* =============================
+   HABITS MAIN LAYOUT
+============================= */
+.habits-main {
+  margin-left: 320px;
+  padding: 40px 48px;
+  min-height: 100vh;
+  background: var(--app-bg);
+}
+
+/* =============================
+   CREATE HABIT FORM CARD
+============================= */
+.habit-form-card {
+  max-width: 620px;
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 36px 38px;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow:
+    0 10px 24px rgba(0,0,0,0.06),
+    0 1px 0 rgba(255,255,255,0.03);
+}
+
+/* =============================
+   FORM STRUCTURE
+============================= */
+.habit-form-card {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* =============================
+   LABELS
+============================= */
+.form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+}
+
+/* =============================
+   INPUTS
+============================= */
+.form-group input,
+.form-group select {
+  height: 46px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #f8fafc;
+  color: #0f172a;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.15s ease;
+}
+
+.form-group input::placeholder {
+  color: #9ca3af;
+}
+
+/* Hover */
+.form-group input:hover,
+.form-group select:hover {
+  border-color: #a1a1aa;
+}
+
+/* Focus */
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--accent);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(99,102,241,0.16);
+}
+
+/* Color picker */
+.form-group input[type="color"] {
+  padding: 6px;
+  height: 46px;
+  cursor: pointer;
+}
+
+/* =============================
+   ROW LAYOUT
+============================= */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+/* =============================
+   ACTIONS
+============================= */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.form-actions .btn-primary {
+  height: 44px;
+  padding: 0 24px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.form-actions .btn-secondary {
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 10px;
+}
