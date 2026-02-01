@@ -1,0 +1,73 @@
+<!-- PAGE HEADER -->
+<div class="habits-page-header">
+  <div>
+    <h1>Create Habit</h1>
+    <p>Define a new behavior you want to build.</p>
+  </div>
+</div>
+
+<!-- FORM CARD -->
+<div class="habit-form-card">
+
+  <!-- HABIT NAME -->
+  <div class="form-group">
+    <label>Habit Name</label>
+    <input
+      type="text"
+      id="habitName"
+      placeholder="e.g. Daily Coding"
+      maxlength="100"
+    />
+  </div>
+
+  <!-- TARGET -->
+  <div class="form-row">
+
+    <div class="form-group">
+      <label>Target</label>
+      <input
+        type="number"
+        id="habitTarget"
+        min="1"
+        value="1"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Unit</label>
+      <select id="habitUnit">
+        <option value="times">Times</option>
+        <option value="hours">Hours</option>
+        <option value="pages">Pages</option>
+        <option value="minutes">Minutes</option>
+      </select>
+    </div>
+
+  </div>
+
+  <!-- FREQUENCY -->
+  <div class="form-group">
+    <label>Frequency</label>
+    <select id="habitFrequency">
+      <option value="daily">Daily</option>
+      <option value="weekly">Weekly</option>
+    </select>
+  </div>
+
+  <!-- COLOR -->
+  <div class="form-group">
+    <label>Color</label>
+    <input type="color" id="habitColor" value="#6366f1">
+  </div>
+
+  <!-- ACTIONS -->
+  <div class="form-actions">
+    <button type="button" class="btn-primary" id="createHabitBtn">
+      Create Habit
+    </button>
+    <a href="/personalOS/habits" class="btn-secondary">
+      Cancel
+    </a>
+  </div>
+
+</div>
