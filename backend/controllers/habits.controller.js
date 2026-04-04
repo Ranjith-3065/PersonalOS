@@ -1,6 +1,7 @@
 const habitModel = require('../models/Habit.model');
 const habitLogModel = require('../models/HabitLog.model');
 const TryCatch = require('../middleware/tryCatch.middleware');
+const user = require('../models/User.model');
 const AppError = require('../utils/apperror');
 const TaskModel = require('../models/Task.model');
 
@@ -10,7 +11,7 @@ exports.getHabitsDashboard = TryCatch((req,res)=>{
         layout:'layouts/tasks',
         title:'habits',
         styles:['/css/habits/habits-sidebar.css','/css/habits/habits.css'],
-        scripts:[],
+        scripts:['/js/habits/habits.js'],
         sidebar:'habits',
         active:'dashboard'
     })
@@ -58,6 +59,14 @@ exports.postCreateHabits = TryCatch(async (req, res) => {
 
   res.status(201).json({
     success: true,
-    habit
   });
 });
+
+
+exports.getDashboardHabits = TryCatch(async(req,res)=>{
+  const userid = req.user.id;
+  const userhabits = await habitModel.find({userId:userid})
+
+  res.status(200).json({success:true,userhabits})
+  
+})

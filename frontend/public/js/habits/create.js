@@ -1,4 +1,5 @@
-const submitBtn = document.querySelector('.createHabitBtn');
+const submitBtn = document.querySelector('#createHabitBtn');
+
 submitBtn.addEventListener('click',async()=>{
     const habitDescription = document.querySelector('#habitName').value;
     const habitTarget = document.querySelector('#habitTarget').value;

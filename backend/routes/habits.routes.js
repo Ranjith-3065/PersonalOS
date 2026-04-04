@@ -5,5 +5,6 @@ const habitController = require('../controllers/habits.controller');
 router.get('/habitsDashboard',habitController.getHabitsDashboard);
 router.get('/habits/create',habitController.getCreateHabits);
 router.post('/habits/create',habitController.postCreateHabits);
+router.get('/Dashboardhabits',habitController.getDashboardHabits);
 
 module.exports = router
